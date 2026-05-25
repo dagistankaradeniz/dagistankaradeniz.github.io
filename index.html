@@ -50,6 +50,8 @@
 
 	<!-- Theme style  -->
 	<link rel="stylesheet" href="css/style.css">
+	<!-- Highlight.js — syntax highlighting for post code blocks -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
 	<!-- Theme color  Chrome, Firefox OS and Opera-->
 	<meta name="theme-color" content="#00C899">
 	<!-- Theme color Windows Phone -->
@@ -81,7 +83,7 @@
 							 data-animate-effect="fadeIn">
 							<div class="profile-thumb" style="background: url(images/ozel/penguin.png);"></div>
 							<h1>Dağıstan Karadeniz</h1>
-							<h3 style="color: #4ECCA3;"><span>Computer Scientist & Software Engineer</span></h3>
+							<h3 style="color: #4ECCA3;"><span id="hero-subtitle">Computer Scientist & Software Engineer</span></h3>
 							<p>
 								<ul class="fh5co-social-icons">
 									<li><a href="https://www.linkedin.com/in/dagistankaradeniz/"><i class="icon-linkedin2"></i></a></li>
@@ -96,7 +98,7 @@
 		</div>
 	</header>
 
-	<div id="fh5co-about" class="fh5co-bg-dark">
+	<div id="fh5co-about" class="fh5co-bg-color">
 		<div class="container">
 			<div class="row animate-box">
 				<div class="col-md-8 col-md-offset-2 text-center fh5co-heading">
@@ -112,6 +114,53 @@
 						<li><span class="first-block">Location</span><span class="second-block">London-UK</span></li>
 						<li><span class="first-block">Trio</span><span class="second-block">Terminal-JetbBains-Claude Code</span></li>
 					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="fh5co-posts" class="fh5co-bg-dark">
+		<div class="container">
+			<div class="row animate-box">
+				<div class="col-md-8 col-md-offset-2 text-center fh5co-heading">
+					<h2>Posts</h2>
+				</div>
+			</div>
+			<div class="row animate-box">
+				<div class="col-md-12">
+					<div class="posts-filter-bar">
+						<input type="text" id="posts-search" class="posts-search-input" placeholder="Search posts...">
+						<div class="posts-tag-filters-wrap">
+							<button id="tags-arrow-left" class="posts-tags-arrow hidden" aria-label="Scroll tags left">&#8249;</button>
+							<div id="posts-tag-filters" class="posts-tag-filters"></div>
+							<button id="tags-arrow-right" class="posts-tags-arrow hidden" aria-label="Scroll tags right">&#8250;</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row animate-box">
+				<div class="col-md-12">
+					<table class="posts-table">
+						<tbody id="posts-tbody">
+							<tr><td colspan="2" class="posts-loading">Loading posts...</td></tr>
+						</tbody>
+					</table>
+					<div id="posts-pagination" class="posts-pagination text-center"></div>
+					<div class="posts-disclaimer-row">
+										<div class="posts-tool-badges">
+											<span class="posts-tool-badge" title="Claude Code">
+												<!-- Anthropic logo mark -->
+												<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="13" height="13"><path d="M13.827 3.09 19.095 18h-3.046l-1.017-3.013H9.012L7.995 18H4.95L10.218 3.09h3.61Zm-1.804 4.03-1.73 5.13h3.46l-1.73-5.13Z"/></svg>
+												Claude Code
+											</span>
+											<span class="posts-tool-badge" title="OpenCode">
+												<!-- Terminal prompt icon -->
+												<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+												OpenCode
+											</span>
+										</div>
+										<p class="posts-disclaimer">Posts are human-in-the-loop AI generated.</p>
+									</div>
 				</div>
 			</div>
 		</div>
@@ -511,6 +560,20 @@
 	
 
 	<div id="map" class="fh5co-map"></div>
+
+	<!-- Post Modal -->
+	<div id="post-modal" class="post-modal-overlay">
+		<div class="post-modal-container">
+			<div class="post-modal-header">
+				<div class="post-modal-title-section">
+					<h3 id="post-modal-title"></h3>
+					<div id="post-modal-meta" class="post-modal-meta"></div>
+				</div>
+				<button id="post-modal-close" class="post-modal-close">&times;</button>
+			</div>
+			<div id="post-modal-content" class="post-modal-content"></div>
+		</div>
+	</div>
 	</div>
 	
 	<div id="fh5co-footer">
@@ -545,6 +608,12 @@
 	
 	<!-- Main -->
 	<script src="js/main.js"></script>
+	<!-- Marked (Markdown renderer) -->
+	<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+	<!-- Highlight.js — must load after marked, before posts.js -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+	<!-- Posts -->
+	<script src="js/posts.js"></script>
 
 	</body>
 </html>

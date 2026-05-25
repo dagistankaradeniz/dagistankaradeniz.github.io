@@ -1,0 +1,46 @@
+{
+  "posts": [
+    {
+      "filename": "hotp-totp-authenticator-apps.md",
+      "title": "HOTP & TOTP: The Algorithms Behind Authenticator Apps",
+      "date": "2026-05-25",
+      "tags": ["security", "authentication", "otp", "mfa", "hotp", "totp", "java", "python"]
+    },
+    {
+      "filename": "hashing-hmac-digital-signatures.md",
+      "title": "Hashing, HMAC, and Digital Signatures: A Deep Comparison",
+      "date": "2026-05-04",
+      "tags": ["security", "cryptography", "hashing", "hmac", "digital-signatures", "rsa", "ecdsa", "eddsa", "java", "python"]
+    },
+    {
+      "filename": "bias-types-ai-ml.md",
+      "title": "Bias in AI and ML: Taxonomy, Detection, and Mitigation",
+      "date": "2026-04-08",
+      "tags": ["machine-learning", "ai", "bias", "fairness", "ethics", "mlops", "python"]
+    },
+    {
+      "filename": "graph-databases.md",
+      "title": "Graph Databases: When Relationships Are First-Class Citizens",
+      "date": "2026-03-15",
+      "tags": ["graph-databases", "neo4j", "rdf", "sparql", "gql", "nosql", "architecture"]
+    },
+    {
+      "filename": "stable-matching-algorithm.md",
+      "title": "The Stable Matching Algorithm: From Theory to the NRMP",
+      "date": "2026-02-21",
+      "tags": ["algorithms", "game-theory", "matching", "combinatorics", "java", "python"]
+    },
+    {
+      "filename": "zero-knowledge-proofs.md",
+      "title": "Zero-Knowledge Proofs: Proving You Know Without Revealing What You Know",
+      "date": "2026-02-03",
+      "tags": ["cryptography", "security", "zero-knowledge", "zkp", "privacy", "blockchain"]
+    },
+    {
+      "filename": "python-dask-vs-pandas.md",
+      "title": "Dask: Scaling the PyData Ecosystem Beyond Memory",
+      "date": "2026-01-14",
+      "tags": ["python", "dask", "pandas", "distributed", "data-engineering", "big-data"]
+    }
+  ]
+}

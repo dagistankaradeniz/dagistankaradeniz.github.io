@@ -7,9 +7,14 @@
 }
 /* =======================================================
 *
-* 	Template Style 
+* 	Template Style
 *
 * ======================================================= */
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
 body {
   font-family: "Space Mono", Arial, serif;
   font-weight: 400;
@@ -90,11 +95,13 @@ h1, h2, h3, h4, h5, h6, figure {
   -webkit-background-size: cover;
   background-size: cover;
   background-attachment: fixed;
-  background-position: center center;
+  background-position: 0 0;
   background-repeat: no-repeat;
   position: relative;
   height: 600px;
   width: 100%;
+  margin: 0;
+  padding: 0;
 }
 @media screen and (max-width: 992px) {
   #fh5co-header,

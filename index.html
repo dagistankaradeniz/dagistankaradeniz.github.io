@@ -540,11 +540,19 @@
 						</div>
 					</div>
 				</div>
+				<div class="row animate-box">
+					<div class="col-md-12 text-center github-contrib-section">
+						<h3 class="github-contrib-title">GitHub Contributions</h3>
+						<div class="github-contrib-chart">
+							<div id="github-contrib-svg" class="github-contrib-img"></div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
 
-	
+
 	<div id="fh5co-started" class="fh5co-bg-dark">
 		<div class="overlay"></div>
 		<div class="container">
@@ -614,6 +622,37 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 	<!-- Posts -->
 	<script src="js/posts.js"></script>
+	<!-- GitHub Contributions -->
+	<script>
+	(function () {
+		var EMPTY_CELL   = '#ebedf0';
+		var DARK_EMPTY   = '#1a2130';
+		var BRIGHT_GREEN = '39D353';
+
+		var container = document.getElementById('github-contrib-svg');
+
+		fetch('https://ghchart.rshah.org/' + BRIGHT_GREEN + '/dagistankaradeniz')
+			.then(function (res) { return res.text(); })
+			.then(function (svg) {
+				svg = svg.replace(new RegExp(EMPTY_CELL, 'gi'), DARK_EMPTY);
+				container.innerHTML = svg;
+				var el = container.querySelector('svg');
+				if (el) {
+					el.style.width  = '100%';
+					el.style.height = 'auto';
+					el.querySelectorAll('text').forEach(function (t) {
+						var fs = parseFloat(t.getAttribute('font-size')) || 9;
+						t.setAttribute('font-size', fs * 2);
+					});
+				}
+			})
+			.catch(function () {
+				container.innerHTML =
+					'<img src="https://ghchart.rshah.org/' + BRIGHT_GREEN +
+					'/dagistankaradeniz" style="max-width:100%;height:auto;">';
+			});
+	})();
+	</script>
 
 	</body>
 </html>

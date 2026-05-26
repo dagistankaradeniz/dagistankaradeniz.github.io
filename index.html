@@ -540,20 +540,50 @@
 						</div>
 					</div>
 				</div>
-				<div class="row animate-box">
-					<div class="col-md-12 text-center github-contrib-section">
-						<h3 class="github-contrib-title">GitHub Contributions</h3>
-						<div class="github-contrib-chart">
-							<div id="github-contrib-svg" class="github-contrib-img"></div>
+			</div>
+		</div>
+	</div>
+
+	<div id="fh5co-github" class="fh5co-bg-dark">
+		<div class="container">
+			<div class="row animate-box">
+				<div class="col-md-8 col-md-offset-2 text-center fh5co-heading">
+					<h2>GitHub</h2>
+				</div>
+			</div>
+			<div class="row animate-box">
+				<div class="col-md-12 text-center github-contrib-section">
+					<div class="github-contrib-chart">
+						<div id="github-contrib-svg" class="github-contrib-img"></div>
+					</div>
+				</div>
+			</div>
+			<div class="row animate-box">
+				<div class="col-md-12">
+					<div class="posts-filter-bar">
+						<input type="text" id="github-search" class="posts-search-input" placeholder="Search repos...">
+						<div class="posts-tag-filters-wrap">
+							<button id="github-arrow-left" class="posts-tags-arrow hidden" aria-label="Scroll left">&#8249;</button>
+							<div id="github-lang-filters" class="posts-tag-filters"></div>
+							<button id="github-arrow-right" class="posts-tags-arrow hidden" aria-label="Scroll right">&#8250;</button>
 						</div>
 					</div>
+				</div>
+			</div>
+			<div class="row animate-box">
+				<div class="col-md-12">
+					<table class="posts-table">
+						<tbody id="github-repos-tbody">
+							<tr><td colspan="2" class="posts-loading">Loading repos...</td></tr>
+						</tbody>
+					</table>
+					<div id="github-repos-pagination" class="posts-pagination text-center"></div>
 				</div>
 			</div>
 		</div>
 	</div>
 
-
-	<div id="fh5co-started" class="fh5co-bg-dark">
+	<div id="fh5co-started">
 		<div class="overlay"></div>
 		<div class="container">
 			<div class="row animate-box">
@@ -622,37 +652,8 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 	<!-- Posts -->
 	<script src="js/posts.js"></script>
-	<!-- GitHub Contributions -->
-	<script>
-	(function () {
-		var EMPTY_CELL   = '#ebedf0';
-		var DARK_EMPTY   = '#1a2130';
-		var BRIGHT_GREEN = '39D353';
-
-		var container = document.getElementById('github-contrib-svg');
-
-		fetch('https://ghchart.rshah.org/' + BRIGHT_GREEN + '/dagistankaradeniz')
-			.then(function (res) { return res.text(); })
-			.then(function (svg) {
-				svg = svg.replace(new RegExp(EMPTY_CELL, 'gi'), DARK_EMPTY);
-				container.innerHTML = svg;
-				var el = container.querySelector('svg');
-				if (el) {
-					el.style.width  = '100%';
-					el.style.height = 'auto';
-					el.querySelectorAll('text').forEach(function (t) {
-						var fs = parseFloat(t.getAttribute('font-size')) || 9;
-						t.setAttribute('font-size', fs * 2);
-					});
-				}
-			})
-			.catch(function () {
-				container.innerHTML =
-					'<img src="https://ghchart.rshah.org/' + BRIGHT_GREEN +
-					'/dagistankaradeniz" style="max-width:100%;height:auto;">';
-			});
-	})();
-	</script>
+	<!-- GitHub -->
+	<script src="js/github.js"></script>
 
 	</body>
 </html>

@@ -36,7 +36,57 @@
 
 	// Parallax
 	var parallax = function() {
-		$(window).stellar();
+		if (isMobile.iOS()) {
+			// iOS Safari ignores background-attachment:fixed, so stellar has no effect.
+			// Instead, move the background into an absolutely-positioned child div and
+			// drive it with translateY on every scroll tick (passive listener = no jank).
+			var $hero  = $('#fh5co-header');
+			var bgImage = $hero[0].style.backgroundImage;          // inline style value
+			var ratio   = parseFloat($hero.data('stellar-background-ratio')) || 0.5;
+
+			// Strip the bg from the element; the child div will own it.
+			$hero.css({ 'background-image': 'none', 'overflow': 'hidden' });
+
+			// Build the oversized parallax layer (25 % bleed on each side = room to move).
+			var $bg = $('<div class="ios-parallax-bg"></div>').css({
+				'background-image'   : bgImage,
+				'background-size'    : 'cover',
+				'background-position': 'center center',
+				'background-repeat'  : 'no-repeat',
+				'position'           : 'absolute',
+				'top'                : '-25%',
+				'left'               : '0',
+				'right'              : '0',
+				'height'             : '150%',
+				'will-change'        : 'transform',
+				'z-index'            : '0',
+				'pointer-events'     : 'none'
+			});
+
+			// Keep overlay and content above the bg layer.
+			$hero.find('.overlay').css('z-index', '1');
+			$hero.find('.container').css({ 'position': 'relative', 'z-index': '2' });
+
+			$hero.prepend($bg);
+
+			var ticking = false;
+			function updateParallax() {
+				var scrollTop = window.pageYOffset || document.documentElement.scrollTop || 0;
+				$bg[0].style.transform = 'translateY(' + (scrollTop * ratio) + 'px)';
+				ticking = false;
+			}
+
+			window.addEventListener('scroll', function () {
+				if (!ticking) {
+					requestAnimationFrame(updateParallax);
+					ticking = true;
+				}
+			}, { passive: true });
+
+			updateParallax(); // set initial position
+		} else {
+			$(window).stellar();
+		}
 	};
 
 	var contentWayPoint = function() {

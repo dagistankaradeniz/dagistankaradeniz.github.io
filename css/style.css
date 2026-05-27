@@ -1309,6 +1309,19 @@ input[type="text"] {
   opacity: 1;
 }
 
+/* LinkedIn / btn-default accent hover */
+.btn-default {
+  -webkit-transition: background 0.2s, border-color 0.2s, color 0.2s;
+  -o-transition: background 0.2s, border-color 0.2s, color 0.2s;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+.btn-default:hover, .btn-default:focus, .btn-default:active {
+  background: rgba(78, 204, 163, 0.1) !important;
+  border-color: #4ECCA3 !important;
+  color: #4ECCA3 !important;
+  box-shadow: 0 0 0 1px rgba(78, 204, 163, 0.25) !important;
+}
+
 .form-control {
   box-shadow: none;
   background: transparent;
@@ -1471,10 +1484,10 @@ input[type="text"] {
   border-color: rgba(78, 204, 163, 0.55);
 }
 
-.posts-search-input::-webkit-input-placeholder { color: #4a5560; }
-.posts-search-input::-moz-placeholder { color: #4a5560; }
-.posts-search-input:-ms-input-placeholder { color: #4a5560; }
-.posts-search-input::placeholder { color: #4a5560; }
+.posts-search-input::-webkit-input-placeholder { color: #999; }
+.posts-search-input::-moz-placeholder { color: #999; }
+.posts-search-input:-ms-input-placeholder { color: #999; }
+.posts-search-input::placeholder { color: #999; }
 
 /* Scrollable single-line tag strip */
 .posts-tag-filters-wrap {
@@ -1497,7 +1510,7 @@ input[type="text"] {
   flex: 0 0 auto;
   background: none;
   border: 1px solid rgba(255, 255, 255, 0.13);
-  color: #777;
+  color: #999;
   width: 26px;
   height: 26px;
   -webkit-border-radius: 3px;
@@ -1546,7 +1559,7 @@ input[type="text"] {
   flex: 0 0 auto;
   background: none;
   border: 1px solid rgba(255, 255, 255, 0.13);
-  color: #666;
+  color: #999;
   padding: 4px 10px;
   font-family: "Space Mono", Arial, serif;
   font-size: 11px;

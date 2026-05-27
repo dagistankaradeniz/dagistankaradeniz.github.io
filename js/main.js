@@ -45,14 +45,7 @@
 			var ratio   = parseFloat($hero.data('stellar-background-ratio')) || 0.5;
 
 			// Strip the bg from the element; the child div will own it.
-			// Use clip-path instead of overflow:hidden — overflow:hidden on a sized element
-			// creates a scroll container on iOS Safari which swallows touch events and
-			// prevents the whole page from scrolling (and keeps pageYOffset at 0).
-			$hero.css({
-				'background-image'  : 'none',
-				'-webkit-clip-path' : 'inset(0)',
-				'clip-path'         : 'inset(0)'
-			});
+			$hero.css({ 'background-image': 'none', 'overflow': 'hidden' });
 
 			// Build the oversized parallax layer (25 % bleed on each side = room to move).
 			var $bg = $('<div class="ios-parallax-bg"></div>').css({

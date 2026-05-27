@@ -1,5 +1,5 @@
 ;(function () {
-	
+
 	'use strict';
 
 	var isMobile = {
@@ -23,7 +23,7 @@
 		}
 	};
 
-	
+
 	var fullHeight = function() {
 
 		if ( !isMobile.any() ) {
@@ -36,57 +36,7 @@
 
 	// Parallax
 	var parallax = function() {
-		if (isMobile.iOS()) {
-			// iOS Safari ignores background-attachment:fixed, so stellar has no effect.
-			// Instead, move the background into an absolutely-positioned child div and
-			// drive it with translateY on every scroll tick (passive listener = no jank).
-			var $hero  = $('#fh5co-header');
-			var bgImage = $hero[0].style.backgroundImage;          // inline style value
-			var ratio   = parseFloat($hero.data('stellar-background-ratio')) || 0.5;
-
-			// Strip the bg from the element; the child div will own it.
-			$hero.css({ 'background-image': 'none', 'overflow': 'hidden' });
-
-			// Build the oversized parallax layer (25 % bleed on each side = room to move).
-			var $bg = $('<div class="ios-parallax-bg"></div>').css({
-				'background-image'   : bgImage,
-				'background-size'    : 'cover',
-				'background-position': 'center center',
-				'background-repeat'  : 'no-repeat',
-				'position'           : 'absolute',
-				'top'                : '-25%',
-				'left'               : '0',
-				'right'              : '0',
-				'height'             : '150%',
-				'will-change'        : 'transform',
-				'z-index'            : '0',
-				'pointer-events'     : 'none'
-			});
-
-			// Keep overlay and content above the bg layer.
-			$hero.find('.overlay').css('z-index', '1');
-			$hero.find('.container').css({ 'position': 'relative', 'z-index': '2' });
-
-			$hero.prepend($bg);
-
-			var ticking = false;
-			function updateParallax() {
-				var scrollTop = window.pageYOffset || document.documentElement.scrollTop || 0;
-				$bg[0].style.transform = 'translateY(' + (scrollTop * ratio) + 'px)';
-				ticking = false;
-			}
-
-			window.addEventListener('scroll', function () {
-				if (!ticking) {
-					requestAnimationFrame(updateParallax);
-					ticking = true;
-				}
-			}, { passive: true });
-
-			updateParallax(); // set initial position
-		} else {
-			$(window).stellar();
-		}
+		$(window).stellar();
 	};
 
 	var contentWayPoint = function() {
@@ -94,7 +44,7 @@
 		$('.animate-box').waypoint( function( direction ) {
 
 			if( direction === 'down' && !$(this.element).hasClass('animated-fast') ) {
-				
+
 				i++;
 
 				$(this.element).addClass('item-animate');
@@ -117,9 +67,9 @@
 							el.removeClass('item-animate');
 						},  k * 100, 'easeInOutExpo' );
 					});
-					
+
 				}, 50);
-				
+
 			}
 
 		} , { offset: '85%' } );
@@ -130,13 +80,13 @@
 	var goToTop = function() {
 
 		$('.js-gotop').on('click', function(event){
-			
+
 			event.preventDefault();
 
 			$('html, body').animate({
 				scrollTop: $('html').offset().top
 			}, 500, 'easeInOutExpo');
-			
+
 			return false;
 		});
 
@@ -150,7 +100,7 @@
 			}
 
 		});
-	
+
 	};
 
 	var pieChart = function() {
@@ -168,9 +118,9 @@
 	var skillsWayPoint = function() {
 		if ($('#fh5co-skills').length > 0 ) {
 			$('#fh5co-skills').waypoint( function( direction ) {
-										
+
 				if( direction === 'down' && !$(this.element).hasClass('animated') ) {
-					setTimeout( pieChart , 400);					
+					setTimeout( pieChart , 400);
 					$(this.element).addClass('animated');
 				}
 			} , { offset: '90%' } );
@@ -184,7 +134,7 @@
 		$(".fh5co-loader").fadeOut("slow");
 	};
 
-	
+
 	$(function(){
 		contentWayPoint();
 		goToTop();

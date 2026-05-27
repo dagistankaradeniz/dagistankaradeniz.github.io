@@ -11,6 +11,27 @@
     var arrowLeft = null;
     var arrowRight = null;
 
+    // iOS-compatible body scroll lock.
+    // overflow:hidden on <body> doesn't prevent scroll on iOS Safari; the only
+    // reliable approach is position:fixed + negative top = scroll position.
+    var _scrollLockY = 0;
+    function lockBodyScroll() {
+        _scrollLockY = window.pageYOffset || 0;
+        document.body.style.position   = 'fixed';
+        document.body.style.top        = '-' + _scrollLockY + 'px';
+        document.body.style.left       = '0';
+        document.body.style.right      = '0';
+        document.body.style.overflow   = 'hidden';
+    }
+    function unlockBodyScroll() {
+        document.body.style.position = '';
+        document.body.style.top      = '';
+        document.body.style.left     = '';
+        document.body.style.right    = '';
+        document.body.style.overflow = '';
+        window.scrollTo(0, _scrollLockY);
+    }
+
     function escapeHtml(str) {
         return String(str)
             .replace(/&/g, '&amp;')
@@ -218,7 +239,7 @@
                 var modal = document.getElementById('post-modal');
                 modal.style.display = 'flex';
                 document.getElementById('post-modal-content').scrollTop = 0;
-                document.body.style.overflow = 'hidden';
+                lockBodyScroll();
             })
             .catch(function (err) {
                 console.error('Failed to load post', filename, err);
@@ -227,7 +248,7 @@
 
     function closeModal() {
         document.getElementById('post-modal').style.display = 'none';
-        document.body.style.overflow = '';
+        unlockBodyScroll();
     }
 
     function init() {

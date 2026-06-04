@@ -233,6 +233,12 @@ h1, h2, h3, h4, h5, h6, figure {
 .fh5co-cover .display-tc .fh5co-social-icons li a i {
   font-size: 30px;
 }
+#fh5co-header .display-tc .fh5co-social-icons li a svg,
+.fh5co-cover .display-tc .fh5co-social-icons li a svg {
+  width: 30px;
+  height: 30px;
+  vertical-align: -6px;
+}
 
 #fh5co-features {
   background: #393E46;

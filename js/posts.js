@@ -209,10 +209,33 @@
                     content.innerHTML = '<pre class="post-raw">' + escapeHtml(parsed.body) + '</pre>';
                 }
 
+                // Convert ```mermaid fenced blocks into <pre class="mermaid"> so Mermaid
+                // can render them, and keep them out of the Highlight.js pass.
+                content.querySelectorAll('code.language-mermaid').forEach(function (block) {
+                    var pre = block.parentElement;
+                    var holder = document.createElement('pre');
+                    holder.className = 'mermaid';
+                    holder.textContent = block.textContent;
+                    if (pre && pre.parentElement) {
+                        pre.parentElement.replaceChild(holder, pre);
+                    }
+                });
+
                 if (window.hljs) {
                     content.querySelectorAll('pre code').forEach(function (block) {
                         window.hljs.highlightElement(block);
                     });
+                }
+
+                if (window.mermaid) {
+                    var diagrams = content.querySelectorAll('pre.mermaid');
+                    if (diagrams.length) {
+                        try {
+                            window.mermaid.run({ nodes: diagrams });
+                        } catch (e) {
+                            console.error('Mermaid render failed', e);
+                        }
+                    }
                 }
 
                 var modal = document.getElementById('post-modal');
@@ -276,6 +299,15 @@
         if (window.hljs) {
             window.hljs.configure({ ignoreUnescapedHTML: true });
             window.hljs.registerAliases(['cql'], { languageName: 'sql' });
+        }
+
+        if (window.mermaid) {
+            window.mermaid.initialize({
+                startOnLoad: false,
+                theme: 'dark',
+                securityLevel: 'strict',
+                fontFamily: 'inherit'
+            });
         }
 
         fetch('posts/manifest.json')

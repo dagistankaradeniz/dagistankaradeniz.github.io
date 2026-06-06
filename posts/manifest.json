@@ -1,6 +1,12 @@
 {
   "posts": [
     {
+      "filename": "virtual-threads-vs-webflux-reactor.md",
+      "title": "Java Virtual Threads vs Spring WebFlux / Reactor: A Deep Comparison",
+      "date": "2026-06-06",
+      "tags": ["java", "virtual-threads", "project-loom", "webflux", "project-reactor", "reactive", "spring-boot", "concurrency", "performance"]
+    },
+    {
       "filename": "rag-finetuning-graphrag-context-windows.md",
       "title": "RAG vs Fine-Tuning vs Graph RAG vs Context Windows: A Practical Comparison",
       "date": "2026-05-29",

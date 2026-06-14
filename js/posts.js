@@ -65,6 +65,32 @@
             tagsEl.scrollLeft + tagsEl.clientWidth >= tagsEl.scrollWidth - 1);
     }
 
+    // Wire up horizontal scroll arrows for a single post's tag strip.
+    function setupTagsScroll(row) {
+        var scroll = row.querySelector('.post-tags-scroll');
+        var left = row.querySelector('.post-tags-arrow-left');
+        var right = row.querySelector('.post-tags-arrow-right');
+        if (!scroll || !left || !right) return;
+
+        function update() {
+            left.classList.toggle('hidden', scroll.scrollLeft <= 0);
+            right.classList.toggle('hidden',
+                scroll.scrollLeft + scroll.clientWidth >= scroll.scrollWidth - 1);
+        }
+
+        var STEP = 120;
+        left.addEventListener('click', function (e) {
+            e.stopPropagation();
+            scroll.scrollBy({ left: -STEP, behavior: 'smooth' });
+        });
+        right.addEventListener('click', function (e) {
+            e.stopPropagation();
+            scroll.scrollBy({ left: STEP, behavior: 'smooth' });
+        });
+        scroll.addEventListener('scroll', update);
+        requestAnimationFrame(update);
+    }
+
     function applyFilters() {
         currentPage = 1;
         var tagKeys = Object.keys(activeTags);
@@ -132,11 +158,19 @@
 
         slice.forEach(function (post) {
             html += '<tr class="post-row" data-filename="' + escapeHtml(post.filename) + '">';
-            html += '<td class="post-title-cell">';
+            html += '<td class="post-cell">';
             html += '<span class="post-title-text">' + escapeHtml(post.title || post.filename) + '</span>';
-            if (post.date) html += '<span class="post-date-text">' + formatDate(post.date) + '</span>';
+            html += '<div class="post-meta-row">';
+            html += '<span class="post-date-text">' + (post.date ? formatDate(post.date) : '') + '</span>';
+            if (post.tags && post.tags.length) {
+                html += '<div class="post-tags-row">';
+                html += '<button class="post-tags-arrow post-tags-arrow-left hidden" aria-label="Scroll tags left">&#8249;</button>';
+                html += '<div class="post-tags-scroll">' + tagsHtml(post.tags.slice(0, 5)) + '</div>';
+                html += '<button class="post-tags-arrow post-tags-arrow-right hidden" aria-label="Scroll tags right">&#8250;</button>';
+                html += '</div>';
+            }
+            html += '</div>';
             html += '</td>';
-            html += '<td class="post-tags-cell">' + tagsHtml(post.tags) + '</td>';
             html += '</tr>';
         });
 
@@ -146,6 +180,7 @@
             row.addEventListener('click', function () {
                 openPost(this.getAttribute('data-filename'));
             });
+            setupTagsScroll(row);
         });
 
         Array.prototype.forEach.call(tbody.querySelectorAll('.post-tag'), function (tagEl) {

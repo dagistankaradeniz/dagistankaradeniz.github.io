@@ -1451,6 +1451,110 @@ input[type="text"] {
   white-space: nowrap;
 }
 
+/* Posts panel — single-cell layout: title left / date right, tags below */
+.post-cell {
+  width: 100%;
+}
+
+.post-meta-row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 4px;
+  min-width: 0;
+}
+
+.post-meta-row .post-date-text {
+  display: inline-block;
+  margin-top: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.post-tags-row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+  gap: 4px;
+  min-width: 0;
+}
+
+.post-tags-scroll {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: nowrap;
+  flex-wrap: nowrap;
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+  -webkit-box-flex: 0;
+  -ms-flex: 0 1 auto;
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: 100%;
+  gap: 6px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.post-tags-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.post-tags-scroll .post-tag {
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+  margin: 0;
+}
+
+.post-tags-arrow {
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+  background: none;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  color: #999;
+  width: 22px;
+  height: 22px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 15px;
+  line-height: 1;
+  padding: 0;
+  -webkit-transition: all 0.2s;
+  -o-transition: all 0.2s;
+  transition: all 0.2s;
+}
+
+.post-tags-arrow:hover {
+  border-color: rgba(78, 204, 163, 0.45);
+  color: #4ECCA3;
+}
+
+.post-tags-arrow.hidden {
+  display: none;
+}
+
 /* Posts filter bar */
 .posts-filter-bar {
   display: -webkit-box;

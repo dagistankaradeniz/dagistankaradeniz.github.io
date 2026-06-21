@@ -1,6 +1,12 @@
 {
   "posts": [
     {
+      "filename": "jvm-architecture-heap-stack-gc.md",
+      "title": "JVM Architecture: Heap, Stack & GC Algorithms (JDK 11–25)",
+      "date": "2026-06-21",
+      "tags": ["jvm", "java", "garbage-collection", "heap", "stack", "jdk", "zgc", "g1gc", "shenandoah", "performance"]
+    },
+    {
       "filename": "envelope-encryption.md",
       "title": "Envelope Encryption: Scalable Data Encryption with Data Keys and Key Encryption Keys",
       "date": "2026-06-13",

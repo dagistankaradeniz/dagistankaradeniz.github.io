@@ -1,10 +1,10 @@
 ---
-title: "Envelope Encryption: Scalable Data Encryption with Data Keys and Key Encryption Keys"
+title: "Envelope Encryption: Data Keys & Key Encryption Keys"
 date: 2026-06-13
 tags: security, cryptography, encryption, envelope-encryption, aws-kms, aes-gcm, java, key-management
 ---
 
-# Envelope Encryption: Scalable Data Encryption with Data Keys and Key Encryption Keys
+# Envelope Encryption: Data Keys & Key Encryption Keys
 
 Envelope encryption is the production pattern for encrypting application data without asking a key-management service to process every byte. Generate a short-lived **data encryption key** (DEK), encrypt the payload locally with an authenticated cipher, then wrap that DEK with a protected **key encryption key** (KEK) in KMS, an HSM, or a key vault. Store the encrypted DEK beside the ciphertext.
 

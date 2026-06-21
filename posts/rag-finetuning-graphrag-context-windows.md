@@ -1,10 +1,10 @@
 ---
-title: "RAG vs Fine-Tuning vs Graph RAG vs Context Windows: A Practical Comparison"
+title: "RAG vs Fine-Tuning vs Graph RAG vs Context Windows"
 date: 2026-05-29
 tags: llm, rag, graph-rag, fine-tuning, context-window, embeddings, vector-search, knowledge-graph, python
 ---
 
-# RAG vs Fine-Tuning vs Graph RAG vs Context Windows: A Practical Comparison
+# RAG vs Fine-Tuning vs Graph RAG vs Context Windows
 
 When a large language model needs to answer a question outside its training distribution — a query about your internal policy document, last week's incident report, or a domain ontology it has never seen — there are four mainstream techniques to give it the missing knowledge: stuff everything into the **context window**, retrieve relevant chunks with **RAG**, traverse a knowledge graph with **Graph RAG**, or bake the knowledge into the model weights via **fine-tuning**. Each has a very different cost profile, latency footprint, accuracy envelope, and operational complexity.
 
@@ -14,27 +14,20 @@ This post is a side-by-side comparison: how each technique works, where each one
 
 ## The Four Approaches in One Diagram
 
-```
-                 ┌──────────────────────────────────────────────┐
-                 │              User Query                       │
-                 └──────────────────────────────────────────────┘
-                                       │
-        ┌──────────────┬───────────────┼───────────────┬─────────────────┐
-        │              │               │               │                 │
-        ▼              ▼               ▼               ▼                 ▼
-   ┌─────────┐   ┌──────────┐    ┌──────────┐   ┌────────────┐    ┌────────────┐
-   │  Long   │   │   RAG    │    │  Graph   │   │ Fine-Tuned │    │  Hybrid    │
-   │ Context │   │ (vector  │    │   RAG    │   │   Model    │    │ (combine)  │
-   │ Window  │   │ search)  │    │ (KG +    │   │  (weights  │    │            │
-   │         │   │          │    │  vectors)│   │   updated) │    │            │
-   └─────────┘   └──────────┘    └──────────┘   └────────────┘    └────────────┘
-        │              │               │               │                 │
-        └──────────────┴───────────────┴───────────────┴─────────────────┘
-                                       │
-                                       ▼
-                           ┌──────────────────────┐
-                           │   Generated Answer   │
-                           └──────────────────────┘
+```mermaid
+flowchart TB
+    Q[User Query] --> A{Approach?}
+    A --> LC[Long Context Window]
+    A --> R[RAG<br/>vector search]
+    A --> GR[Graph RAG<br/>KG + vectors]
+    A --> FT[Fine-Tuned Model<br/>weights updated]
+    A --> H[Hybrid<br/>combine]
+
+    LC --> ANS[Generated Answer]
+    R --> ANS
+    GR --> ANS
+    FT --> ANS
+    H --> ANS
 ```
 
 The four techniques are not mutually exclusive — production systems almost always combine two or more. The choice between them is driven by **data freshness**, **token economics**, **answer traceability**, and the shape of the relationships in your knowledge.
@@ -123,12 +116,12 @@ for q in queries:
 
 RAG (Lewis et al., 2020, *Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks*) decouples knowledge storage from the model. Documents are split into chunks, embedded into a vector space, and indexed. At query time, the user question is embedded, the top-k nearest chunks are retrieved, and they — not the full corpus — are inserted into the LLM prompt.
 
-```
-[Documents] → [Chunk] → [Embed] → [Vector DB]
-                                       │
-                                       │  similarity search
-                                       ▼
-[Query] → [Embed] ────────────► [Top-k chunks] → [LLM prompt] → [Answer]
+```mermaid
+flowchart LR
+    DOC[Documents] --> CH[Chunk] --> EM[Embed] --> VDB[Vector DB]
+    Q[Query] --> EQ[Embed]
+    EQ -.->|similarity search| VDB
+    VDB --> TK[Top-k chunks] --> LLM[LLM prompt] --> ANS[Answer]
 ```
 
 The standard open-source stack:
@@ -255,26 +248,16 @@ The seminal practical work is Microsoft Research's **GraphRAG** (Edge et al., 20
 - **Local search** — anchor on entities matching the query, traverse N hops, retrieve connected chunks and entity descriptions.
 - **Global search** — map-reduce community summaries to answer corpus-wide questions ("What are the recurring themes across these 10,000 incident reports?").
 
-```
-Documents → Chunks → LLM entity/relation extraction
-                              │
-                              ▼
-                    Knowledge Graph (nodes + edges)
-                              │
-                              ▼
-                    Leiden community detection
-                              │
-                              ▼
-                Hierarchical community summaries
-                              │
-            ┌─────────────────┴─────────────────┐
-            ▼                                   ▼
-   LOCAL  query → entity anchor →     GLOBAL query → map over
-   subgraph traversal → context        community summaries → reduce
-            │                                   │
-            └─────────────────┬─────────────────┘
-                              ▼
-                            Answer
+```mermaid
+flowchart TB
+    DOC[Documents] --> CH[Chunks] --> EX[LLM entity / relation extraction]
+    EX --> KG[Knowledge Graph<br/>nodes + edges]
+    KG --> LE[Leiden community detection]
+    LE --> HS[Hierarchical community summaries]
+    HS --> SPLIT{Query type}
+    SPLIT -->|Local| LOC[entity anchor → subgraph traversal → context]
+    SPLIT -->|Global| GLOB[map over community summaries → reduce]
+    LOC & GLOB --> ANS[Answer]
 ```
 
 ### Open-Source Implementations
@@ -514,31 +497,15 @@ Self-RAG (Asai et al., 2023) and CRAG (Yan et al., 2024) introduce a *retrieval 
 
 ## A Decision Framework
 
-```
-                   ┌──────────────────────────────────────┐
-                   │  Is the corpus small (<100K tokens)  │
-                   │  and stable, with few queries?       │
-                   └─────────────────┬────────────────────┘
-                              yes    │    no
-                  ┌──────────────────┴──────────────────┐
-                  ▼                                     ▼
-        Long Context (+ prompt           ┌──────────────────────────────────┐
-        caching if many queries)         │ Do relationships dominate, or    │
-                                         │ need multi-hop / global synthesis│
-                                         └─────────────────┬────────────────┘
-                                                yes        │        no
-                                ┌──────────────────────────┴──────────────────────┐
-                                ▼                                                 ▼
-                      Graph RAG (+ vector             ┌──────────────────────────────────┐
-                      RAG for breadth)                │ Do you need behaviour / format /  │
-                                                      │ style control or low latency?     │
-                                                      └─────────────────┬────────────────┘
-                                                              yes       │        no
-                                            ┌─────────────────────────-─┴─────────────-──┐
-                                            ▼                                            ▼
-                                  Fine-tune (LoRA/QLoRA)                              Plain RAG
-                                  + RAG for facts                                     (hybrid search +
-                                                                                      reranker)
+```mermaid
+flowchart TD
+    Q1{Is corpus small<br/>(<100K tokens) and<br/>stable, few queries?}
+    Q1 -->|yes| LC[Long Context +<br/>prompt caching<br/>if many queries]
+    Q1 -->|no| Q2{Do relationships<br/>dominate? Need multi-hop<br/>or global synthesis?}
+    Q2 -->|yes| GR[Graph RAG +<br/>vector RAG for breadth]
+    Q2 -->|no| Q3{Need behaviour /<br/>format / style control<br/>or low latency?}
+    Q3 -->|yes| FT[Fine-tune LoRA/QLoRA<br/>+ RAG for facts]
+    Q3 -->|no| RAG[Plain RAG<br/>hybrid search + reranker]
 ```
 
 A few practical heuristics worth internalising:

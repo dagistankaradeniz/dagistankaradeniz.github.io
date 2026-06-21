@@ -8,19 +8,19 @@
     },
     {
       "filename": "envelope-encryption.md",
-      "title": "Envelope Encryption: Scalable Data Encryption with Data Keys and Key Encryption Keys",
+      "title": "Envelope Encryption: Data Keys & Key Encryption Keys",
       "date": "2026-06-13",
       "tags": ["security", "cryptography", "encryption", "envelope-encryption", "aws-kms", "aes-gcm", "java", "key-management"]
     },
     {
       "filename": "virtual-threads-vs-webflux-reactor.md",
-      "title": "Java Virtual Threads vs Spring WebFlux / Reactor: A Deep Comparison",
+      "title": "Virtual Threads vs WebFlux / Reactor",
       "date": "2026-06-06",
       "tags": ["java", "virtual-threads", "project-loom", "webflux", "project-reactor", "reactive", "spring-boot", "concurrency", "performance"]
     },
     {
       "filename": "rag-finetuning-graphrag-context-windows.md",
-      "title": "RAG vs Fine-Tuning vs Graph RAG vs Context Windows: A Practical Comparison",
+      "title": "RAG vs Fine-Tuning vs Graph RAG vs Context Windows",
       "date": "2026-05-29",
       "tags": ["llm", "rag", "graph-rag", "fine-tuning", "context-window", "embeddings", "vector-search", "knowledge-graph", "python"]
     },
@@ -32,7 +32,7 @@
     },
     {
       "filename": "hashing-hmac-digital-signatures.md",
-      "title": "Hashing, HMAC, and Digital Signatures: A Deep Comparison",
+      "title": "Hashing, HMAC & Digital Signatures",
       "date": "2026-05-04",
       "tags": ["security", "cryptography", "hashing", "hmac", "digital-signatures", "rsa", "ecdsa", "eddsa", "java", "python"]
     },
@@ -44,19 +44,19 @@
     },
     {
       "filename": "graph-databases.md",
-      "title": "Graph Databases: When Relationships Are First-Class Citizens",
+      "title": "Graph Databases: Relationships as First-Class Citizens",
       "date": "2026-03-15",
       "tags": ["graph-databases", "neo4j", "rdf", "sparql", "gql", "nosql", "architecture"]
     },
     {
       "filename": "stable-matching-algorithm.md",
-      "title": "The Stable Matching Algorithm: From Theory to the NRMP",
+      "title": "Stable Matching: From Theory to the NRMP",
       "date": "2026-02-21",
       "tags": ["algorithms", "game-theory", "matching", "combinatorics", "java", "python"]
     },
     {
       "filename": "zero-knowledge-proofs.md",
-      "title": "Zero-Knowledge Proofs: Proving You Know Without Revealing What You Know",
+      "title": "Zero-Knowledge Proofs: Prove Without Revealing",
       "date": "2026-02-03",
       "tags": ["cryptography", "security", "zero-knowledge", "zkp", "privacy", "blockchain"]
     },

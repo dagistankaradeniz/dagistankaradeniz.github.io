@@ -36,7 +36,7 @@ HMAC-Based One-Time Password (HOTP) is defined in [RFC 4226](https://datatracker
 
 **Step 1 — HMAC-SHA-1**
 
-```
+```text
 HS = HMAC-SHA-1(K, C)
 ```
 
@@ -47,7 +47,7 @@ The counter `C` is serialized as an 8-byte big-endian unsigned integer before be
 
 Rather than truncating a fixed window of the HMAC output, RFC 4226 uses the low-order 4 bits of the last byte as a dynamic offset:
 
-```
+```text
 offset  = HS[19] & 0x0F          // 0 ≤ offset ≤ 15
 P       = HS[offset..offset+3]   // 4 bytes
 Sbits   = P & 0x7FFFFFFF         // mask the MSB to avoid sign issues
@@ -57,7 +57,7 @@ Masking the most significant bit of `P` ensures the result is always treated as 
 
 **Step 3 — OTP**
 
-```
+```text
 HOTP(K, C) = Sbits mod 10^Digit
 ```
 
@@ -129,7 +129,7 @@ Time-Based One-Time Password (TOTP) is defined in [RFC 6238](https://datatracker
 
 ### Time Counter (RFC 6238 Section 4)
 
-```
+```text
 T = floor((Unix time − T0) / X)
 TOTP(K) = HOTP(K, T)
 ```

@@ -259,6 +259,52 @@
                 if (window.hljs) {
                     content.querySelectorAll('pre code').forEach(function (block) {
                         window.hljs.highlightElement(block);
+                        var pre = block.parentElement;
+                        if (!pre || pre.classList.contains('hljs-label-added')) return;
+                        pre.classList.add('hljs-label-added');
+                        var lang = '';
+                        Array.prototype.forEach.call(block.classList, function (cls) {
+                            if (cls.indexOf('language-') === 0) {
+                                lang = cls.substring(9);
+                            }
+                        });
+                        if (!lang) lang = 'text';
+                        var header = document.createElement('div');
+                        header.className = 'code-header';
+                        pre.style.position = 'relative';
+                        pre.appendChild(header);
+
+                        var label = document.createElement('span');
+                        label.className = 'code-lang-label';
+                        label.textContent = lang;
+                        header.appendChild(label);
+
+                        var copyBtn = document.createElement('button');
+                        copyBtn.className = 'code-copy-btn';
+                        copyBtn.setAttribute('aria-label', 'Copy code');
+                        copyBtn.textContent = '📋';
+                        header.appendChild(copyBtn);
+                        copyBtn.addEventListener('click', function (e) {
+                            e.stopPropagation();
+                            var code = block.textContent;
+                            function done() {
+                                copyBtn.textContent = '✅';
+                                setTimeout(function () { copyBtn.textContent = '📋'; }, 1500);
+                            }
+                            if (navigator.clipboard && navigator.clipboard.writeText) {
+                                navigator.clipboard.writeText(code).then(done);
+                            } else {
+                                var ta = document.createElement('textarea');
+                                ta.value = code;
+                                ta.style.position = 'fixed';
+                                ta.style.left = '-9999px';
+                                document.body.appendChild(ta);
+                                ta.select();
+                                document.execCommand('copy');
+                                document.body.removeChild(ta);
+                                done();
+                            }
+                        });
                     });
                 }
 
@@ -288,6 +334,118 @@
         document.body.style.overflow = '';
     }
 
+    var diagramZoomState = { scale: 1, x: 0, y: 0 };
+
+    function openDiagramZoom(svg) {
+        var modal = document.getElementById('diagram-zoom-modal');
+        var body = document.getElementById('diagram-zoom-body');
+        body.innerHTML = '';
+        var clone = svg.cloneNode(true);
+        clone.removeAttribute('style');
+        clone.style.maxWidth = '100%';
+        clone.style.maxHeight = '100%';
+        body.appendChild(clone);
+
+        diagramZoomState.scale = 1;
+        diagramZoomState.x = 0;
+        diagramZoomState.y = 0;
+        applyZoomTransform(clone);
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+
+        var hint = document.createElement('div');
+        hint.className = 'zoom-hint';
+        hint.textContent = 'scroll to zoom · drag to pan';
+        body.appendChild(hint);
+
+        var isPanning = false, startX, startY;
+
+        body._wheelHandler = function (e) {
+            e.preventDefault();
+            var delta = e.deltaY > 0 ? 0.9 : 1.1;
+            diagramZoomState.scale = Math.min(10, Math.max(0.2, diagramZoomState.scale * delta));
+            applyZoomTransform(clone);
+        };
+        body._mousedownHandler = function (e) {
+            if (e.target !== clone && !clone.contains(e.target)) return;
+            isPanning = true;
+            startX = e.clientX - diagramZoomState.x;
+            startY = e.clientY - diagramZoomState.y;
+            body.style.cursor = 'grabbing';
+        };
+        body._mousemoveHandler = function (e) {
+            if (!isPanning) return;
+            diagramZoomState.x = e.clientX - startX;
+            diagramZoomState.y = e.clientY - startY;
+            applyZoomTransform(clone);
+        };
+        body._mouseupHandler = function () {
+            isPanning = false;
+            body.style.cursor = '';
+        };
+
+        body.addEventListener('wheel', body._wheelHandler, { passive: false });
+        body.addEventListener('mousedown', body._mousedownHandler);
+        window.addEventListener('mousemove', body._mousemoveHandler);
+        window.addEventListener('mouseup', body._mouseupHandler);
+    }
+
+    function applyZoomTransform(el) {
+        el.style.transform = 'translate(' + diagramZoomState.x + 'px, ' + diagramZoomState.y + 'px) scale(' + diagramZoomState.scale + ')';
+    }
+
+    function closeDiagramZoom() {
+        var modal = document.getElementById('diagram-zoom-modal');
+        var body = document.getElementById('diagram-zoom-body');
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+        if (body._wheelHandler) body.removeEventListener('wheel', body._wheelHandler);
+        if (body._mousedownHandler) body.removeEventListener('mousedown', body._mousedownHandler);
+        if (body._mousemoveHandler) window.removeEventListener('mousemove', body._mousemoveHandler);
+        if (body._mouseupHandler) window.removeEventListener('mouseup', body._mouseupHandler);
+        body.innerHTML = '';
+    }
+
+    function wrapMermaidDiagram(pre) {
+        if (pre.dataset.zoomReady) return;
+        var svg = pre.querySelector('svg');
+        if (!svg) return;
+        pre.dataset.zoomReady = 'true';
+        var wrapper = document.createElement('div');
+        wrapper.className = 'mermaid-wrapper';
+        pre.parentNode.insertBefore(wrapper, pre);
+        wrapper.appendChild(pre);
+        wrapper.addEventListener('click', function (e) {
+            e.stopPropagation();
+            openDiagramZoom(svg);
+        });
+    }
+
+    function initMermaidZoomObserver() {
+        var zoomModal = document.getElementById('diagram-zoom-modal');
+        var observer = new MutationObserver(function (mutations) {
+            mutations.forEach(function (mutation) {
+                mutation.addedNodes.forEach(function (node) {
+                    if (node.nodeType !== 1) return;
+                    if (zoomModal && zoomModal.contains(node)) return;
+                    var pre;
+                    if (node.tagName === 'svg' && (pre = node.closest('pre.mermaid'))) {
+                        wrapMermaidDiagram(pre);
+                    }
+                    if (node.matches && node.matches('pre.mermaid')) {
+                        var svg = node.querySelector('svg');
+                        if (svg) wrapMermaidDiagram(node);
+                    }
+                    var nestedPres = node.querySelectorAll && node.querySelectorAll('pre.mermaid');
+                    Array.prototype.forEach.call(nestedPres, function (pre) {
+                        wrapMermaidDiagram(pre);
+                    });
+                });
+            });
+        });
+        observer.observe(document.body, { childList: true, subtree: true });
+    }
+
     function init() {
         var closeBtn = document.getElementById('post-modal-close');
         if (closeBtn) closeBtn.addEventListener('click', closeModal);
@@ -299,8 +457,25 @@
             });
         }
 
+        var diagramModal = document.getElementById('diagram-zoom-modal');
+        var diagramClose = document.getElementById('diagram-zoom-close');
+        if (diagramClose) diagramClose.addEventListener('click', closeDiagramZoom);
+        if (diagramModal) {
+            diagramModal.addEventListener('click', function (e) {
+                if (e.target === diagramModal || e.target === document.getElementById('diagram-zoom-body')) {
+                    closeDiagramZoom();
+                }
+            });
+        }
+
         document.addEventListener('keydown', function (e) {
-            if (e.key === 'Escape') closeModal();
+            if (e.key === 'Escape') {
+                if (diagramModal && diagramModal.classList.contains('active')) {
+                    closeDiagramZoom();
+                } else {
+                    closeModal();
+                }
+            }
         });
 
         var searchInput = document.getElementById('posts-search');
@@ -343,6 +518,7 @@
                 securityLevel: 'strict',
                 fontFamily: 'inherit'
             });
+            initMermaidZoomObserver();
         }
 
         fetch('posts/manifest.json')

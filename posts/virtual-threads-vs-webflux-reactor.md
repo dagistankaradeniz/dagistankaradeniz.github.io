@@ -1,10 +1,10 @@
 ---
-title: "Java Virtual Threads vs Spring WebFlux / Reactor: A Deep Comparison"
+title: "Virtual Threads vs WebFlux / Reactor"
 date: 2026-06-06
 tags: java, virtual-threads, project-loom, webflux, project-reactor, reactive, spring-boot, concurrency, performance
 ---
 
-# Java Virtual Threads vs Spring WebFlux / Reactor: A Deep Comparison
+# Virtual Threads vs WebFlux / Reactor
 
 For more than a decade, the way to make a JVM service handle tens of thousands of concurrent connections without drowning in operating-system threads was to go **reactive**: Spring WebFlux on top of Project Reactor, non-blocking I/O, and the `Mono`/`Flux` programming model. The price was steep — your code stopped reading top-to-bottom, stack traces became archaeology, and every library in the call chain had to be non-blocking too.
 

@@ -125,7 +125,7 @@ Let `Ŷ` be the predicted label, `Y` be the true label, and `A` be the sensitive
 
 ### Demographic Parity (Statistical Parity)
 
-```
+```text
 P(Ŷ = 1 | A = 0) = P(Ŷ = 1 | A = 1)
 ```
 
@@ -133,20 +133,20 @@ The positive prediction rate is equal across groups. This is a group-level const
 
 ### Equalized Odds (Hardt, Price, Srebro 2016)
 
-```
+```text
 P(Ŷ = 1 | A = 0, Y = y) = P(Ŷ = 1 | A = 1, Y = y)    for y ∈ {0, 1}
 ```
 
 Both the True Positive Rate (TPR) and False Positive Rate (FPR) are equal across groups. This is a stronger constraint: the model must perform equally well — and fail equally — across groups.
 
 **Equal Opportunity** (a relaxation) requires only equal TPR:
-```
+```text
 P(Ŷ = 1 | A = 0, Y = 1) = P(Ŷ = 1 | A = 1, Y = 1)
 ```
 
 ### Predictive Parity (Calibration)
 
-```
+```text
 P(Y = 1 | Ŷ = 1, A = 0) = P(Y = 1 | Ŷ = 1, A = 1)
 ```
 

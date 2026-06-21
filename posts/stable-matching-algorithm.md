@@ -1,10 +1,10 @@
 ---
-title: "The Stable Matching Algorithm: From Theory to the NRMP"
+title: "Stable Matching: From Theory to the NRMP"
 date: 2026-02-21
 tags: algorithms, game-theory, matching, combinatorics, java, python
 ---
 
-# The Stable Matching Algorithm: From Theory to the NRMP
+# Stable Matching: From Theory to the NRMP
 
 Every year, roughly 40,000 medical students and residency programmes in the United States are matched by an algorithm that was first described in a mathematics journal in 1962. The same algorithm underpins university admissions systems, public school assignment, kidney exchange networks, and job recruiting platforms. Understanding it reveals a beautiful intersection of combinatorics, game theory, and mechanism design.
 
@@ -30,7 +30,7 @@ The algorithm is sometimes called **Deferred Acceptance (DA)** because receiving
 
 ### Algorithm
 
-```
+```text
 Initialise all participants as free.
 
 While any man m is free and has not proposed to every woman:

@@ -1,10 +1,10 @@
 ---
-title: "Zero-Knowledge Proofs: Proving You Know Without Revealing What You Know"
+title: "Zero-Knowledge Proofs: Prove Without Revealing"
 date: 2026-02-03
 tags: cryptography, security, zero-knowledge, zkp, privacy, blockchain
 ---
 
-# Zero-Knowledge Proofs: Proving You Know Without Revealing What You Know
+# Zero-Knowledge Proofs: Prove Without Revealing
 
 A zero-knowledge proof (ZKP) is a cryptographic protocol in which one party — the **prover** — convinces another party — the **verifier** — that a statement is true, without revealing any information beyond the truth of that statement itself. The concept sounds paradoxical: how can you prove knowledge of a secret without disclosing the secret? This post unpacks the formal model, the concrete protocols built on it, and the engineering contexts where ZKPs are deployed today.
 
@@ -44,7 +44,7 @@ The simulator condition is the precise technical definition of "no information l
 
 A **Sigma protocol** (Σ-protocol) is a three-move interactive ZKP structure:
 
-```
+```text
 Prover                          Verifier
   |                                |
   |--- commitment (R) ----------->|
@@ -72,7 +72,7 @@ Let `G` be a cyclic group of prime order `q` with generator `g`. The prover know
 
 ### Interactive Protocol
 
-```
+```text
 Prover (knows x)                        Verifier (knows Y, g, p, q)
 
 r ← random in [1, q-1]
@@ -134,7 +134,7 @@ assert verify(Y, R, c, s), "Verification failed"
 
 Interactive proofs require a live back-and-forth between prover and verifier, which is impractical for most applications. The **Fiat-Shamir heuristic** (Fiat & Shamir, 1986) converts a Sigma protocol into a **Non-Interactive Zero-Knowledge (NIZK)** proof by replacing the verifier's random challenge with a hash of the commitment and public parameters:
 
-```
+```text
 c = H(g || Y || R || message)
 ```
 

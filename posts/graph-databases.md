@@ -1,10 +1,10 @@
 ---
-title: "Graph Databases: When Relationships Are First-Class Citizens"
+title: "Graph Databases: Relationships as First-Class Citizens"
 date: 2026-03-15
 tags: graph-databases, neo4j, rdf, sparql, gql, nosql, architecture
 ---
 
-# Graph Databases: When Relationships Are First-Class Citizens
+# Graph Databases: Relationships as First-Class Citizens
 
 Most data stores treat relationships as a secondary concern — a foreign key constraint, a JOIN operation, an index lookup. Graph databases invert this assumption: relationships are stored, indexed, and traversed as first-class entities. For domains where the connections between data are as important as the data itself, this architectural difference produces queries that are both simpler to express and orders of magnitude faster to execute.
 
@@ -21,7 +21,7 @@ The Property Graph (PG) model, used by Neo4j, Amazon Neptune, and TigerGraph, re
 - **Nodes** — entities with a label (type) and a set of key-value properties
 - **Edges** (relationships) — directed, typed connections between two nodes, each with its own set of key-value properties
 
-```
+```cypher
 (Alice:Person {age: 32})-[:FOLLOWS {since: "2024-01"}]->(Bob:Person {age: 28})
     |
     [:POSTED {timestamp: "2026-01-10"}]
@@ -42,7 +42,7 @@ The critical point: the `[:FOLLOWS]` relationship is a stored record with its ow
 The Resource Description Framework (RDF) represents data as a set of triples: `(subject, predicate, object)`. Every resource is identified by a URI. RDF is a W3C recommendation and forms the backbone of the Semantic Web and Linked Data initiatives.
 
 **RDF 1.1** (W3C Recommendation, 2014):
-```
+```turtle
 <http://example.org/Alice> <http://schema.org/knows> <http://example.org/Bob> .
 <http://example.org/Alice> <http://schema.org/age>   "32"^^xsd:integer .
 ```
@@ -126,35 +126,48 @@ The relational query requires three JOINs. Each JOIN is a B-tree scan against th
 
 **Relational model — three separate tables:**
 
-```
-users              follows              posts
-+----+-------+    +------+----------+  +----+------+---------+
-| id | name  |    | foll | followee |  | id | user | content |
-+----+-------+    +------+----------+  +----+------+---------+
-|  1 | Alice |    |  2   |    1     |  | 10 |  2   | "Hi"    |
-|  2 | Bob   |    |  3   |    1     |  | 11 |  3   | "Hey"   |
-|  3 | Carol |    +------+----------+  +----+------+---------+
-+----+-------+
-                  likes
-                  +------+---------+
-                  | user | post_id |
-                  +------+---------+
-                  |  2   |   11    |
-                  +------+---------+
+```mermaid
+flowchart LR
+    subgraph users["users"]
+        u1["| id | name |"]
+        u2["| 1 | Alice |"]
+        u3["| 2 | Bob |"]
+        u4["| 3 | Carol |"]
+    end
+
+    subgraph follows["follows"]
+        f1["| foll | followee |"]
+        f2["| 2 | 1 |"]
+        f3["| 3 | 1 |"]
+    end
+
+    subgraph posts["posts"]
+        p1["| id | user | content |"]
+        p2["| 10 | 2 | Hi |"]
+        p3["| 11 | 3 | Hey |"]
+    end
+
+    subgraph likes["likes"]
+        l1["| user | post_id |"]
+        l2["| 2 | 11 |"]
+    end
 ```
 
 **Property Graph — same data:**
 
-```
-(Alice:Person)
-       ^
-       |[:FOLLOWS]
-       |
-(Bob:Person)--[:POSTED]-->(Post{content:"Hi"})
-       
-(Carol:Person)--[:FOLLOWS]-->(Alice:Person)
-(Carol:Person)--[:POSTED]-->(Post{content:"Hey"})
-(Bob:Person)--[:LIKED]-->(Post{content:"Hey"})
+```mermaid
+flowchart LR
+    A(Alice:Person)
+    B(Bob:Person)
+    C(Carol:Person)
+    P1(Post: &quot;Hi&quot;)
+    P2(Post: &quot;Hey&quot;)
+
+    B -- FOLLOWS --> A
+    C -- FOLLOWS --> A
+    B -- POSTED --> P1
+    C -- POSTED --> P2
+    B -- LIKED --> P2
 ```
 
 The graph makes the pattern "Alice's followers' liked posts" visually and structurally obvious. The traversal matches the shape of the query, not a decomposed join plan.

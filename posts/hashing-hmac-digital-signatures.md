@@ -1,10 +1,10 @@
 ---
-title: "Hashing, HMAC, and Digital Signatures: A Deep Comparison"
+title: "Hashing, HMAC & Digital Signatures"
 date: 2026-05-04
 tags: security, cryptography, hashing, hmac, digital-signatures, rsa, ecdsa, eddsa, java, python
 ---
 
-# Hashing, HMAC, and Digital Signatures: A Deep Comparison
+# Hashing, HMAC & Digital Signatures
 
 These three primitives appear throughout every security-sensitive system, yet they are frequently misused or conflated. A developer who stores a password with HMAC instead of a password-hashing function, or authenticates an API request with a bare hash instead of HMAC, has introduced a silent vulnerability that passes every functional test. Understanding exactly what each primitive guarantees — and what it does not — eliminates an entire class of design errors.
 
@@ -89,7 +89,7 @@ HMAC (Hash-based Message Authentication Code) is defined in [RFC 2104](https://d
 
 ### The Construction (RFC 2104 Section 2)
 
-```
+```text
 ipad = 0x36 repeated B times
 opad = 0x5C repeated B times
 
@@ -188,12 +188,12 @@ This is the fundamental distinction from HMAC: HMAC requires the verifier to sha
 RSA-PKCS#1 v2.2 is defined in [RFC 8017](https://datatracker.ietf.org/doc/html/rfc8017). The PSS (Probabilistic Signature Scheme) padding mode is required for security; the older PKCS#1 v1.5 mode has known weaknesses (Bleichenbacher-style attacks in various contexts) and is deprecated for new designs in FIPS 186-5.
 
 Signing with RSA-PSS:
-```
+```text
 signature = RSA_decrypt(private_key, PSS_encode(H(message), salt))
 ```
 
 Verification:
-```
+```text
 RSA_encrypt(public_key, signature) → PSS_decode(result) → verify H(message) matches
 ```
 

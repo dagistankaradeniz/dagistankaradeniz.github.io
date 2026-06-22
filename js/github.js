@@ -22,7 +22,7 @@
     function formatDate(str) {
         if (!str) return '';
         var d = new Date(str);
-        if (isNaN(d.getTime())) return str;
+        if (isNaN(d.getTime())) return escapeHtml(str);
         return d.toLocaleDateString('en-GB', { year: 'numeric', month: 'short', day: 'numeric' });
     }
 
@@ -161,9 +161,9 @@
             .then(function (res) { return res.text(); })
             .then(function (svg) {
                 svg = svg.replace(new RegExp(EMPTY_CELL, 'gi'), DARK_EMPTY);
-                container.innerHTML = window.DOMPurify
-                    ? window.DOMPurify.sanitize(svg, { USE_PROFILES: { svg: true, svgFilters: true } })
-                    : svg;
+                if (window.DOMPurify) {
+                    container.innerHTML = window.DOMPurify.sanitize(svg, { USE_PROFILES: { svg: true, svgFilters: true } });
+                }
                 var el = container.querySelector('svg');
                 if (el) {
                     el.style.width  = '100%';

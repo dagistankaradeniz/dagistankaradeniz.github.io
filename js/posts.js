@@ -239,8 +239,11 @@
 
                 var content = document.getElementById('post-modal-content');
                 if (window.marked) {
-                    var html = window.marked.parse(parsed.body);
-                    content.innerHTML = window.DOMPurify ? window.DOMPurify.sanitize(html) : html;
+                    if (!window.DOMPurify) {
+                        content.textContent = '[Post could not be rendered safely.]';
+                        return;
+                    }
+                    content.innerHTML = window.DOMPurify.sanitize(window.marked.parse(parsed.body));
                 } else {
                     content.innerHTML = '<pre class="post-raw">' + escapeHtml(parsed.body) + '</pre>';
                 }

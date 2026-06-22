@@ -161,7 +161,9 @@
             .then(function (res) { return res.text(); })
             .then(function (svg) {
                 svg = svg.replace(new RegExp(EMPTY_CELL, 'gi'), DARK_EMPTY);
-                container.innerHTML = svg;
+                container.innerHTML = window.DOMPurify
+                    ? window.DOMPurify.sanitize(svg, { USE_PROFILES: { svg: true, svgFilters: true } })
+                    : svg;
                 var el = container.querySelector('svg');
                 if (el) {
                     el.style.width  = '100%';

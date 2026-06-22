@@ -47,7 +47,7 @@
     function formatDate(str) {
         if (!str) return '';
         var d = new Date(str);
-        if (isNaN(d.getTime())) return str;
+        if (isNaN(d.getTime())) return escapeHtml(str);
         return d.toLocaleDateString('en-GB', { year: 'numeric', month: 'short', day: 'numeric' });
     }
 
@@ -239,7 +239,8 @@
 
                 var content = document.getElementById('post-modal-content');
                 if (window.marked) {
-                    content.innerHTML = window.marked.parse(parsed.body);
+                    var html = window.marked.parse(parsed.body);
+                    content.innerHTML = window.DOMPurify ? window.DOMPurify.sanitize(html) : html;
                 } else {
                     content.innerHTML = '<pre class="post-raw">' + escapeHtml(parsed.body) + '</pre>';
                 }
@@ -555,7 +556,7 @@
                 if (target[i] === ' ') { out += ' '; continue; }
                 if (locked[i]) {
                     out += ghostMode
-                        ? '<span>' + target[i] + '</span>'
+                        ? '<span>' + escapeHtml(target[i]) + '</span>'
                         : target[i];
                     continue;
                 }
@@ -563,15 +564,15 @@
                 if (frame >= i * 3) {
                     if (frame >= i * 3 + 2) {
                         locked[i] = true;
-                        out += ghostMode ? '<span>' + target[i] + '</span>' : target[i];
+                        out += ghostMode ? '<span>' + escapeHtml(target[i]) + '</span>' : target[i];
                     } else {
                         out += ghostMode
-                            ? '<span>' + rnd + '</span>'
+                            ? '<span>' + escapeHtml(rnd) + '</span>'
                             : rnd;
                     }
                 } else {
                     out += ghostMode
-                        ? '<span>' + rnd + '</span>'
+                        ? '<span>' + escapeHtml(rnd) + '</span>'
                         : rnd;
                 }
             }
@@ -580,7 +581,7 @@
             if (frame <= totalFrames) {
                 requestAnimationFrame(tick);
             } else {
-                if (ghostMode) { el.innerHTML = target; } else { el.textContent = target; }
+                el.textContent = target;
                 el._matrixRunning = false;
             }
         }

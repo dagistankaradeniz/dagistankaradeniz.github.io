@@ -1,32 +1,27 @@
+;(function () {
+    'use strict';
 
-var google;
+    function initMap() {
+        var el = document.getElementById('map');
+        if (!el || typeof L === 'undefined') return;
 
-function init() {
-    var myLatlng = new google.maps.LatLng(51.5287714,-0.2420237);
-
-    var mapOptions = {
-        zoom: 10,
-        center: myLatlng,
-        scrollwheel: false,
-        colorScheme: google.maps.ColorScheme.DARK
-    };
-
-    var mapElement = document.getElementById('map');
-    var map = new google.maps.Map(mapElement, mapOptions);
-
-    var addresses = ['London'];
-
-    for (var x = 0; x < addresses.length; x++) {
-        $.getJSON('https://maps.googleapis.com/maps/api/geocode/json?address=' + addresses[x], null, function (data) {
-            var p = data.results[0].geometry.location;
-            var latlng = new google.maps.LatLng(p.lat, p.lng);
-            new google.maps.Marker({
-                position: latlng,
-                map: map,
-                icon: 'images/pin.png'
-            });
+        var map = L.map('map', {
+            scrollWheelZoom: false
         });
-    }
-}
+        map.setView([51.5074, -0.1278], 11);
 
-google.maps.event.addDomListener(window, 'load', init);
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions" target="_blank" rel="noopener noreferrer">CARTO</a>',
+            subdomains: 'abcd',
+            maxZoom: 20
+        }).addTo(map);
+
+
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initMap);
+    } else {
+        initMap();
+    }
+}());

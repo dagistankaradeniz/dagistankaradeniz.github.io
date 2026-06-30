@@ -1,6 +1,12 @@
 {
   "posts": [
     {
+      "filename": "p2p-secure-messaging-protocols.md",
+      "title": "P2P Secure Messaging: Signal, Tox, Briar & Jami Compared",
+      "date": "2026-06-29",
+      "tags": ["security", "cryptography", "p2p", "messaging", "signal", "tox", "briar", "jami", "e2ee", "privacy", "double-ratchet", "metadata"]
+    },
+    {
       "filename": "jvm-architecture-heap-stack-gc.md",
       "title": "JVM Architecture: Heap, Stack & GC Algorithms (JDK 11–25)",
       "date": "2026-06-21",

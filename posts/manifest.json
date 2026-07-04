@@ -1,6 +1,12 @@
 {
   "posts": [
     {
+      "filename": "spring-ai-overview.md",
+      "title": "Spring AI: Building AI Applications the Spring Way",
+      "date": "2026-07-04",
+      "tags": ["java", "spring", "spring-ai", "spring-boot", "llm", "ai", "chatclient", "rag", "structured-output", "maven"]
+    },
+    {
       "filename": "p2p-secure-messaging-protocols.md",
       "title": "P2P Secure Messaging: Signal, Tox, Briar & Jami Compared",
       "date": "2026-06-29",

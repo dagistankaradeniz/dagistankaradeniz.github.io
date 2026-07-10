@@ -312,6 +312,20 @@
                     });
                 }
 
+                content.querySelectorAll('pre code').forEach(function (block) {
+                    var pre = block.parentElement;
+                    if (!pre || pre.classList.contains('code-collapsible-added')) return;
+                    pre.classList.add('code-collapsible-added');
+                    var btn = document.createElement('button');
+                    btn.className = 'code-toggle-btn';
+                    btn.innerHTML = '<span class="toggle-text">Show code</span><span class="toggle-icon">▼</span>';
+                    pre.insertAdjacentElement('afterend', btn);
+                    btn.addEventListener('click', function () {
+                        var expanded = pre.classList.toggle('expanded');
+                        btn.querySelector('.toggle-text').textContent = expanded ? 'Hide code' : 'Show code';
+                    });
+                });
+
                 if (window.mermaid) {
                     var diagrams = content.querySelectorAll('pre.mermaid');
                     if (diagrams.length) {

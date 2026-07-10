@@ -21,7 +21,7 @@ body {
   font-size: 16px;
   line-height: 1.7;
   color: #4d4d4d;
-  background: #fff;
+  background: #232931;
 }
 
 #page {
@@ -1810,7 +1810,7 @@ input[type="text"] {
   -webkit-box-direction: normal;
   -ms-flex-direction: column;
   flex-direction: column;
-  overflow: hidden;
+  overflow-y: auto;
   -webkit-box-shadow: 0 20px 60px rgba(0, 0, 0, 0.55);
   -moz-box-shadow: 0 20px 60px rgba(0, 0, 0, 0.55);
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.55);
@@ -1830,6 +1830,10 @@ input[type="text"] {
   -webkit-box-pack: justify;
   -ms-flex-pack: justify;
   justify-content: space-between;
+  position: sticky;
+  top: 0;
+  background: #232931;
+  z-index: 1;
 }
 
 .post-modal-title-section {
@@ -1883,7 +1887,7 @@ input[type="text"] {
 
 .post-modal-content {
   padding: 28px 28px 32px;
-  overflow-y: auto;
+  overflow-y: visible;
   -webkit-box-flex: 1;
   -ms-flex: 1;
   flex: 1;
@@ -1943,6 +1947,63 @@ input[type="text"] {
   overflow-x: auto;
   border-left: 3px solid #4ECCA3;
   margin-bottom: 20px;
+}
+
+.post-modal-content pre.code-collapsible-added {
+  max-height: calc(13px * 1.6 * 6 + 32px);
+  overflow-y: hidden;
+  margin-bottom: 0;
+  -webkit-transition: max-height 0.35s ease;
+  -moz-transition: max-height 0.35s ease;
+  transition: max-height 0.35s ease;
+}
+
+.post-modal-content pre.code-collapsible-added.expanded {
+  max-height: none;
+  overflow-y: visible;
+}
+
+.code-toggle-btn {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  padding: 7px 0;
+  margin-bottom: 20px;
+  background: rgba(78, 204, 163, 0.08);
+  border: 1px solid rgba(78, 204, 163, 0.15);
+  border-top: none;
+  border-radius: 0 0 4px 4px;
+  color: #4ECCA3;
+  font-size: 12px;
+  font-family: "Space Mono", monospace;
+  cursor: pointer;
+  -webkit-transition: background 0.2s ease, color 0.2s ease;
+  -moz-transition: background 0.2s ease, color 0.2s ease;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.code-toggle-btn:hover {
+  background: rgba(78, 204, 163, 0.15);
+  color: #6eddb8;
+}
+
+.code-toggle-btn .toggle-icon {
+  font-size: 10px;
+  -webkit-transition: -webkit-transform 0.3s ease;
+  transition: transform 0.3s ease;
+}
+
+.post-modal-content pre.code-collapsible-added.expanded + .code-toggle-btn .toggle-icon {
+  -webkit-transform: rotate(180deg);
+  transform: rotate(180deg);
 }
 
 .post-modal-content pre code {
@@ -2257,6 +2318,623 @@ input[type="text"] {
 
 .github-lang-tag {
   cursor: default;
+}
+
+/* =======================================================
+ *  Theme Toggle — Light Theme Overrides
+ * ======================================================= */
+
+/* --- Theme toggle button --- */
+.theme-toggle {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 999;
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(78, 204, 163, 0.7);
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  -webkit-transition: background 0.3s, transform 0.2s;
+  transition: background 0.3s, transform 0.2s;
+  -webkit-box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.theme-toggle:hover {
+  background: rgba(78, 204, 163, 0.9);
+  transform: scale(1.08);
+}
+
+.theme-toggle:active {
+  transform: scale(0.95);
+}
+
+.theme-toggle svg {
+  pointer-events: none;
+}
+
+/* --- Light theme colour overrides --- */
+[data-theme="light"] body {
+  color: #393E46;
+  background: #f0f3f4;
+}
+
+[data-theme="light"] a {
+  color: #1a7a5a;
+}
+
+[data-theme="light"] h1,
+[data-theme="light"] h2,
+[data-theme="light"] h3,
+[data-theme="light"] h4,
+[data-theme="light"] h5,
+[data-theme="light"] h6,
+[data-theme="light"] figure {
+  color: #232931;
+}
+
+[data-theme="light"] ::-webkit-selection {
+  color: #fff;
+  background: #2d9d78;
+}
+
+[data-theme="light"] ::-moz-selection {
+  color: #fff;
+  background: #2d9d78;
+}
+
+[data-theme="light"] ::selection {
+  color: #fff;
+  background: #2d9d78;
+}
+
+[data-theme="light"] #fh5co-header .display-tc h1,
+[data-theme="light"] .fh5co-cover .display-tc h1 {
+  color: #fff;
+}
+
+[data-theme="light"] #fh5co-header .display-tc h3,
+[data-theme="light"] .fh5co-cover .display-tc h3 {
+  color: #fff;
+}
+
+[data-theme="light"] #fh5co-header .display-tc .fh5co-social-icons li a,
+[data-theme="light"] .fh5co-cover .display-tc .fh5co-social-icons li a {
+  color: #fff;
+}
+
+/* --- Features section --- */
+[data-theme="light"] #fh5co-features {
+  background: #ffffff;
+}
+
+[data-theme="light"] #fh5co-features h2 {
+  color: #2d9d78;
+}
+
+[data-theme="light"] #fh5co-features .feature-left .icon {
+  background: #f0f3f4;
+}
+
+[data-theme="light"] #fh5co-features .feature-left .icon i {
+  color: #2d9d78;
+}
+
+[data-theme="light"] #fh5co-features .feature-left h3 {
+  color: #232931;
+}
+
+[data-theme="light"] #fh5co-features .feature-left p {
+  color: #5a6270;
+}
+
+[data-theme="light"] #fh5co-features .feature-left p a {
+  color: #232931 !important;
+}
+
+/* --- Dark sections (posts, github) --- */
+[data-theme="light"] .fh5co-bg-dark {
+  background: #e8ecef;
+}
+
+[data-theme="light"] .fh5co-bg-dark .fh5co-heading h2 {
+  color: #2d9d78 !important;
+}
+
+/* --- About / Info section --- */
+[data-theme="light"] #fh5co-about .info li .first-block {
+  color: #2d9d78;
+}
+
+[data-theme="light"] .info li .first-block {
+  color: #232931;
+}
+
+[data-theme="light"] .info li .second-block {
+  color: #5a6270;
+}
+
+/* --- Social icons in about --- */
+[data-theme="light"] #fh5co-about .fh5co-social-icons li a {
+  color: #fff;
+  background: #393E46;
+}
+
+[data-theme="light"] #fh5co-about .fh5co-social-icons li a:hover {
+  background: #2d9d78;
+}
+
+/* --- Headings --- */
+[data-theme="light"] .fh5co-heading h2 {
+  color: #2d9d78;
+}
+
+[data-theme="light"] .fh5co-heading p {
+  color: #5a6270;
+}
+
+/* --- Timeline --- */
+[data-theme="light"] .timeline {
+  color: #5a6270;
+}
+
+[data-theme="light"] .timeline:before {
+  background-color: #d0d5da;
+}
+
+[data-theme="light"] .timeline .timeline-heading > div h3 {
+  background: #e8ecef;
+  color: #232931;
+}
+
+[data-theme="light"] .timeline > li > .timeline-badge {
+  color: #2d9d78;
+  background-color: #f0f3f4;
+}
+
+[data-theme="light"] .timeline > li.timeline-unverted {
+  color: #5a6270;
+}
+
+[data-theme="light"] .timeline-title {
+  color: #232931;
+}
+
+[data-theme="light"] .company {
+  color: #2d9d78;
+}
+
+/* --- Progress bars --- */
+[data-theme="light"] .progress-wrap h3 .name-left {
+  color: #5a6270;
+}
+
+[data-theme="light"] .progress-wrap h3 .value-right {
+  color: #5a6270;
+}
+
+[data-theme="light"] .progress-bar {
+  background-color: #d0d5da;
+}
+
+[data-theme="light"] .chart {
+  color: #5a6270;
+}
+
+/* --- GitHub section --- */
+[data-theme="light"] .github-contrib-title {
+  color: #2d9d78;
+}
+
+[data-theme="light"] .github-contrib-chart {
+  background: #ffffff;
+  border: 1px solid #d0d5da;
+}
+
+/* --- Posts section --- */
+[data-theme="light"] .posts-table tbody tr.post-row {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+[data-theme="light"] .posts-table tbody tr.post-row:first-child {
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+[data-theme="light"] .posts-table tbody tr.post-row:hover {
+  background: rgba(45, 157, 120, 0.06);
+}
+
+[data-theme="light"] .post-title-text {
+  color: #232931;
+}
+
+[data-theme="light"] .posts-table tbody tr.post-row:hover .post-title-text {
+  color: #2d9d78;
+}
+
+[data-theme="light"] .post-date-text {
+  color: #6b7280;
+}
+
+[data-theme="light"] .post-tag {
+  background: rgba(45, 157, 120, 0.08);
+  color: #2d9d78;
+  border-color: rgba(45, 157, 120, 0.25);
+}
+
+[data-theme="light"] .posts-search-input {
+  background: rgba(0, 0, 0, 0.03);
+  border-color: rgba(0, 0, 0, 0.12);
+  color: #232931;
+}
+
+[data-theme="light"] .posts-search-input:focus {
+  border-color: rgba(45, 157, 120, 0.5);
+}
+
+[data-theme="light"] .posts-search-input::placeholder,
+[data-theme="light"] .posts-search-input::-webkit-input-placeholder,
+[data-theme="light"] .posts-search-input::-moz-placeholder,
+[data-theme="light"] .posts-search-input:-ms-input-placeholder {
+  color: #888;
+}
+
+[data-theme="light"] .posts-tags-arrow,
+[data-theme="light"] .post-tags-arrow {
+  border-color: rgba(0, 0, 0, 0.12);
+  color: #888;
+}
+
+[data-theme="light"] .posts-tags-arrow:hover,
+[data-theme="light"] .post-tags-arrow:hover {
+  border-color: rgba(45, 157, 120, 0.4);
+  color: #2d9d78;
+}
+
+[data-theme="light"] .posts-filter-tag {
+  border-color: rgba(0, 0, 0, 0.12);
+  color: #888;
+}
+
+[data-theme="light"] .posts-filter-tag:hover {
+  border-color: rgba(45, 157, 120, 0.4);
+  color: #2d9d78;
+}
+
+[data-theme="light"] .posts-filter-tag.active {
+  background: rgba(45, 157, 120, 0.1);
+  border-color: #2d9d78;
+  color: #2d9d78;
+}
+
+[data-theme="light"] .posts-page-btn {
+  border-color: rgba(0, 0, 0, 0.12);
+  color: #666;
+}
+
+[data-theme="light"] .posts-page-btn:hover,
+[data-theme="light"] .posts-page-btn.active {
+  background: #2d9d78;
+  border-color: #2d9d78;
+  color: #fff;
+}
+
+[data-theme="light"] .posts-loading,
+[data-theme="light"] .posts-empty {
+  color: #6b7280;
+}
+
+[data-theme="light"] .posts-disclaimer-row {
+  opacity: 0.8;
+}
+
+[data-theme="light"] .posts-tool-badge {
+  color: #2d9d78;
+  border-color: rgba(45, 157, 120, 0.25);
+}
+
+[data-theme="light"] .posts-disclaimer {
+  color: #2d9d78;
+}
+
+[data-theme="light"] .github-repo-desc {
+  color: #5a6270;
+}
+
+[data-theme="light"] .github-repo-stars {
+  color: #2d9d78;
+}
+
+/* --- Contact / Started section --- */
+[data-theme="light"] #fh5co-started .fh5co-heading h2 {
+  color: #2d9d78;
+}
+
+[data-theme="light"] #fh5co-started .fh5co-heading p {
+  color: #5a6270;
+}
+
+[data-theme="light"] #fh5co-started .btn {
+  background: #fff;
+  color: #232931;
+  border-color: rgba(45, 157, 120, 0.4) !important;
+}
+
+/* --- Footer --- */
+[data-theme="light"] #fh5co-footer {
+  color: #6b7280;
+}
+
+/* --- Go-to-top button --- */
+[data-theme="light"] .gototop a {
+  background: rgba(45, 157, 120, 0.8);
+  color: #fff;
+}
+
+/* --- Buttons --- */
+[data-theme="light"] .btn-primary {
+  background: #1a7a5a;
+  border-color: #1a7a5a;
+}
+
+[data-theme="light"] .btn-primary:hover,
+[data-theme="light"] .btn-primary:focus,
+[data-theme="light"] .btn-primary:active {
+  background: #2d9d78 !important;
+  border-color: #2d9d78 !important;
+}
+
+[data-theme="light"] .btn-default {
+  background: #fff;
+  border-color: #ccc;
+  color: #232931;
+}
+
+[data-theme="light"] .btn-default:hover,
+[data-theme="light"] .btn-default:focus,
+[data-theme="light"] .btn-default:active {
+  background: rgba(45, 157, 120, 0.08) !important;
+  border-color: #2d9d78 !important;
+  color: #2d9d78 !important;
+}
+
+/* --- Theme toggle in light mode --- */
+[data-theme="light"] .theme-toggle {
+  background: rgba(45, 157, 120, 0.8);
+  color: #fff;
+  -webkit-box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+}
+
+[data-theme="light"] .theme-toggle:hover {
+  background: rgba(45, 157, 120, 1);
+}
+
+/* --- Form controls --- */
+[data-theme="light"] .form-control {
+  border-color: rgba(0, 0, 0, 0.12);
+  color: #232931;
+}
+
+[data-theme="light"] .form-control:active,
+[data-theme="light"] .form-control:focus {
+  border-color: #1a7a5a;
+}
+
+/* --- Contact info --- */
+[data-theme="light"] .contact-info li {
+  color: #232931;
+}
+
+[data-theme="light"] .contact-info li i {
+  color: rgba(0, 0, 0, 0.25);
+}
+
+[data-theme="light"] .contact-info li a {
+  color: #232931;
+}
+
+/* --- Modal light overrides --- */
+[data-theme="light"] .post-modal-container {
+  background: #ffffff;
+  -webkit-box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="light"] .post-modal-header {
+  border-bottom-color: rgba(0, 0, 0, 0.06);
+  background: #ffffff;
+}
+
+[data-theme="light"] .post-modal-header h3 {
+  color: #2d9d78;
+}
+
+[data-theme="light"] .post-modal-meta {
+  color: #888;
+}
+
+[data-theme="light"] .post-modal-close {
+  color: #aaa;
+}
+
+[data-theme="light"] .post-modal-close:hover {
+  color: #2d9d78;
+}
+
+[data-theme="light"] .post-modal-content {
+  color: #444;
+}
+
+[data-theme="light"] .post-modal-content h1,
+[data-theme="light"] .post-modal-content h2,
+[data-theme="light"] .post-modal-content h3,
+[data-theme="light"] .post-modal-content h4,
+[data-theme="light"] .post-modal-content h5,
+[data-theme="light"] .post-modal-content h6 {
+  color: #232931;
+}
+
+[data-theme="light"] .post-modal-content p {
+  color: #444;
+}
+
+[data-theme="light"] .post-modal-content a {
+  color: #2d9d78;
+}
+
+[data-theme="light"] .post-modal-content a:hover {
+  color: #1a7a5a;
+}
+
+[data-theme="light"] .post-modal-content code {
+  background: rgba(45, 157, 120, 0.08);
+  color: #1a7a5a;
+}
+
+[data-theme="light"] .post-modal-content pre {
+  background: #f5f7f8;
+  border-left-color: #2d9d78;
+}
+
+[data-theme="light"] .code-toggle-btn {
+  background: rgba(45, 157, 120, 0.06);
+  border-color: rgba(45, 157, 120, 0.12);
+  color: #2d9d78;
+}
+
+[data-theme="light"] .code-toggle-btn:hover {
+  background: rgba(45, 157, 120, 0.12);
+  color: #249068;
+}
+
+[data-theme="light"] .post-modal-content pre code {
+  background: none;
+  color: #1a7a5a;
+}
+
+[data-theme="light"] .post-modal-content blockquote {
+  border-left-color: #2d9d78;
+  color: #5a6270;
+}
+
+[data-theme="light"] .post-modal-content hr {
+  border-top-color: rgba(0, 0, 0, 0.06);
+}
+
+[data-theme="light"] .post-modal-content ul,
+[data-theme="light"] .post-modal-content ol {
+  color: #444;
+}
+
+[data-theme="light"] .post-modal-content th,
+[data-theme="light"] .post-modal-content td {
+  border-color: rgba(0, 0, 0, 0.08);
+  color: #444;
+}
+
+[data-theme="light"] .post-modal-content th {
+  background: rgba(45, 157, 120, 0.06);
+  color: #232931;
+}
+
+[data-theme="light"] .post-modal-content,
+[data-theme="light"] .post-modal-content pre {
+  scrollbar-color: #c0c5ca #f0f2f3;
+}
+
+[data-theme="light"] .post-modal-content::-webkit-scrollbar-track,
+[data-theme="light"] .post-modal-content pre::-webkit-scrollbar-track {
+  background: #f0f2f3;
+}
+
+[data-theme="light"] .post-modal-content::-webkit-scrollbar-thumb,
+[data-theme="light"] .post-modal-content pre::-webkit-scrollbar-thumb {
+  background: #c0c5ca;
+}
+
+[data-theme="light"] .post-modal-content::-webkit-scrollbar-thumb:hover,
+[data-theme="light"] .post-modal-content pre::-webkit-scrollbar-thumb:hover {
+  background: #2d9d78;
+}
+
+[data-theme="light"] .post-modal-content::-webkit-scrollbar-corner,
+[data-theme="light"] .post-modal-content pre::-webkit-scrollbar-corner {
+  background: #f0f2f3;
+}
+
+[data-theme="light"] .code-header {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+[data-theme="light"] .code-lang-label {
+  color: #888;
+}
+
+[data-theme="light"] .code-copy-btn {
+  color: #999;
+}
+
+[data-theme="light"] .code-copy-btn:hover {
+  color: #2d9d78;
+  background: rgba(0, 0, 0, 0.04);
+}
+
+[data-theme="light"] .post-raw {
+  color: #444;
+}
+
+/* --- Mermaid diagram zoom light overrides --- */
+[data-theme="light"] .diagram-zoom-close-btn {
+  color: #888;
+}
+
+[data-theme="light"] .diagram-zoom-close-btn:hover {
+  color: #232931;
+}
+
+[data-theme="light"] .mermaid-wrapper::after {
+  color: #2d9d78;
+}
+
+/* --- Highlight.js light override --- */
+[data-theme="light"] .post-modal-content .hljs {
+  background: transparent;
+}
+
+/* --- Work section --- */
+[data-theme="light"] .work .desc {
+  background: #fff;
+}
+
+[data-theme="light"] .fh5co-blog .blog-text {
+  background: #fff;
+  -webkit-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.04);
+  box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.04);
+}
+
+[data-theme="light"] .fh5co-blog .blog-text h3 a {
+  color: #232931;
+}
+
+[data-theme="light"] .fh5co-blog .blog-text span {
+  color: rgba(0, 0, 0, 0.25);
+}
+
+/* --- Post modal overlay light --- */
+[data-theme="light"] .post-modal-overlay {
+  background: rgba(0, 0, 0, 0.45);
+}
+
+/* --- Loader --- */
+[data-theme="light"] .fh5co-loader {
+  background-color: #f0f3f4;
 }
 
 /*# sourceMappingURL=style.css.map */

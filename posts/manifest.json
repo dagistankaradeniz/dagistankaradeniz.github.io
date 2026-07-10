@@ -1,6 +1,12 @@
 {
   "posts": [
     {
+      "filename": "spring-security-overview.md",
+      "title": "Spring Security: Authentication & Authorization in Depth",
+      "date": "2026-07-11",
+      "tags": ["java", "spring", "spring-security", "spring-boot", "authentication", "authorization", "oauth2", "jwt", "csrf", "maven"]
+    },
+    {
       "filename": "spring-ai-overview.md",
       "title": "Spring AI: Building AI Applications the Spring Way",
       "date": "2026-07-04",

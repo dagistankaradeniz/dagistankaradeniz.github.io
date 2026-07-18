@@ -1,6 +1,12 @@
 {
   "posts": [
     {
+      "filename": "pulumi-vs-terraform-iac.md",
+      "title": "Pulumi Deep Dive: Real Languages for Infrastructure as Code",
+      "date": "2026-07-18",
+      "tags": ["iac", "pulumi", "terraform", "opentofu", "cdktf", "crossplane", "aws-cdk", "devops", "cloud", "typescript", "python"]
+    },
+    {
       "filename": "spring-security-overview.md",
       "title": "Spring Security: Authentication & Authorization in Depth",
       "date": "2026-07-11",

@@ -1,6 +1,12 @@
 {
   "posts": [
     {
+      "filename": "spring-framework-design-patterns.md",
+      "title": "Design Patterns Under the Hood of Spring Framework",
+      "date": "2026-07-25",
+      "tags": ["java", "spring", "spring-framework", "design-patterns", "gof", "aop", "ioc", "singleton", "proxy", "factory", "template-method", "observer", "reactor", "webflux", "reactive-streams", "backpressure", "operator-fusion", "architecture"]
+    },
+    {
       "filename": "pulumi-vs-terraform-iac.md",
       "title": "Pulumi Deep Dive: Real Languages for Infrastructure as Code",
       "date": "2026-07-18",

@@ -10,6 +10,10 @@
     var tagsEl = null;
     var arrowLeft = null;
     var arrowRight = null;
+    var defaultTitle = document.title;
+    var defaultDescription = '';
+    var defaultOgImage = '';
+    var jsonLdScript = null;
 
     function escapeHtml(str) {
         return String(str)
@@ -17,6 +21,135 @@
             .replace(/</g, '&lt;')
             .replace(/>/g, '&gt;')
             .replace(/"/g, '&quot;');
+    }
+
+    /* ----------------------------------------------------------
+     *  SEO: meta-tag helpers
+     * ---------------------------------------------------------- */
+    function cacheDefaultMeta() {
+        var desc = document.querySelector('meta[name="description"]');
+        var ogImg = document.querySelector('meta[property="og:image"]');
+        defaultDescription = desc ? desc.getAttribute('content') : '';
+        defaultOgImage = ogImg ? ogImg.getAttribute('content') : '';
+    }
+
+    function setMeta(name, content) {
+        var el = document.querySelector('meta[name="' + name + '"]') ||
+                 document.querySelector('meta[property="' + name + '"]');
+        if (el) el.setAttribute('content', content);
+    }
+
+    function setPostMeta(post) {
+        var title = (post.title || post.filename) + ' — Dağıstan Karadeniz';
+        var desc = post.title
+            ? 'Deep-dive article: ' + post.title + '. Tags: ' + (post.tags || []).join(', ')
+            : defaultDescription;
+        var postUrl = 'https://www.dagistankaradeniz.com/#post=' + encodeURIComponent(post.filename);
+        var image = defaultOgImage;
+
+        document.title = title;
+        setMeta('description', desc);
+        setMeta('og:title', title);
+        setMeta('og:description', desc);
+        setMeta('og:url', postUrl);
+        setMeta('og:type', 'article');
+        setMeta('og:image', image);
+        setMeta('twitter:title', title);
+        setMeta('twitter:description', desc);
+        setMeta('twitter:url', postUrl);
+        setMeta('twitter:image', image);
+
+        // Canonical
+        var canonical = document.querySelector('link[rel="canonical"]');
+        if (canonical) canonical.setAttribute('href', postUrl);
+
+        // JSON-LD BlogPosting
+        removeJsonLd();
+        jsonLdScript = document.createElement('script');
+        jsonLdScript.type = 'application/ld+json';
+        jsonLdScript.className = 'seo-jsonld-post';
+        jsonLdScript.textContent = JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'BlogPosting',
+            'headline': post.title || post.filename,
+            'datePublished': post.date || undefined,
+            'dateModified': post.date || undefined,
+            'author': { '@type': 'Person', 'name': 'Dağıstan Karadeniz', 'url': 'https://www.dagistankaradeniz.com' },
+            'publisher': { '@type': 'Person', 'name': 'Dağıstan Karadeniz' },
+            'url': postUrl,
+            'mainEntityOfPage': { '@type': 'WebPage', '@id': postUrl },
+            'description': desc,
+            'keywords': (post.tags || []).join(', ')
+        });
+        document.head.appendChild(jsonLdScript);
+    }
+
+    function resetMeta() {
+        document.title = defaultTitle;
+        setMeta('description', defaultDescription);
+        setMeta('og:title', 'Dağıstan Karadeniz — Computer Scientist & Software Engineer');
+        setMeta('og:description', defaultDescription);
+        setMeta('og:url', 'https://www.dagistankaradeniz.com/');
+        setMeta('og:type', 'website');
+        setMeta('og:image', defaultOgImage);
+        setMeta('twitter:title', 'Dağıstan Karadeniz — Computer Scientist & Software Engineer');
+        setMeta('twitter:description', defaultDescription);
+        setMeta('twitter:url', 'https://www.dagistankaradeniz.com/');
+        setMeta('twitter:image', defaultOgImage);
+
+        var canonical = document.querySelector('link[rel="canonical"]');
+        if (canonical) canonical.setAttribute('href', 'https://www.dagistankaradeniz.com/');
+
+        removeJsonLd();
+    }
+
+    function removeJsonLd() {
+        if (jsonLdScript && jsonLdScript.parentNode) {
+            jsonLdScript.parentNode.removeChild(jsonLdScript);
+            jsonLdScript = null;
+        }
+        var old = document.querySelectorAll('.seo-jsonld-post');
+        for (var i = 0; i < old.length; i++) old[i].parentNode.removeChild(old[i]);
+    }
+
+    /* ----------------------------------------------------------
+     *  URL routing via hash — #post=<filename-stem>
+     * ---------------------------------------------------------- */
+    function postStemFromFilename(filename) {
+        return filename.replace(/\.md$/, '');
+    }
+
+    function filenameFromStem(stem) {
+        return stem + '.md';
+    }
+
+    function readHashPost() {
+        var hash = window.location.hash;
+        var m = hash.match(/^#post=(.+)$/);
+        return m ? decodeURIComponent(m[1]) : null;
+    }
+
+    function navigateToPost(stem) {
+        window.location.hash = '#post=' + encodeURIComponent(stem);
+    }
+
+    function clearPostHash() {
+        if (window.location.hash) {
+            history.pushState('', '', window.location.pathname + window.location.search);
+        }
+    }
+
+    function handleHashChange() {
+        var stem = readHashPost();
+        if (stem) {
+            var filename = filenameFromStem(stem);
+            var exists = allPosts.some(function (p) { return p.filename === filename; });
+            if (exists) {
+                openPost(filename, true);   // true = don't push hash again
+            }
+        } else {
+            closeModal(true);              // true = don't reset hash
+        }
     }
 
     function parseFrontmatter(content) {
@@ -221,7 +354,7 @@
         });
     }
 
-    function openPost(filename) {
+    function openPost(filename, skipHash) {
         fetch('posts/' + filename)
             .then(function (r) {
                 if (!r.ok) throw new Error('HTTP ' + r.status);
@@ -341,15 +474,23 @@
                 modal.style.display = 'flex';
                 document.getElementById('post-modal-content').scrollTop = 0;
                 document.body.style.overflow = 'hidden';
+
+                // SEO: update URL hash and meta tags
+                if (!skipHash) {
+                    navigateToPost(postStemFromFilename(filename));
+                }
+                setPostMeta({ title: parsed.title, filename: filename, date: parsed.date, tags: parsed.tags });
             })
             .catch(function (err) {
                 console.error('Failed to load post', filename, err);
             });
     }
 
-    function closeModal() {
+    function closeModal(skipHash) {
         document.getElementById('post-modal').style.display = 'none';
         document.body.style.overflow = '';
+        resetMeta();
+        if (!skipHash) clearPostHash();
     }
 
     var diagramZoomState = { scale: 1, x: 0, y: 0 };
@@ -465,8 +606,10 @@
     }
 
     function init() {
+        cacheDefaultMeta();
+
         var closeBtn = document.getElementById('post-modal-close');
-        if (closeBtn) closeBtn.addEventListener('click', closeModal);
+        if (closeBtn) closeBtn.addEventListener('click', function () { closeModal(); });
 
         var overlay = document.getElementById('post-modal');
         if (overlay) {
@@ -495,6 +638,9 @@
                 }
             }
         });
+
+        // SEO: listen for hash changes (back/forward browser navigation)
+        window.addEventListener('hashchange', handleHashChange);
 
         var searchInput = document.getElementById('posts-search');
         if (searchInput) {
@@ -549,6 +695,9 @@
                 renderTagFilters();
                 renderTable();
                 renderPagination();
+
+                // SEO: open post from URL hash on initial load
+                handleHashChange();
             })
             .catch(function () {
                 var tbody = document.getElementById('posts-tbody');

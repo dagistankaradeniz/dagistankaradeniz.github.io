@@ -1,0 +1,18 @@
+# Robots.txt for www.dagistankaradeniz.com
+# https://www.dagistankaradeniz.com
+
+User-agent: *
+Allow: /
+Disallow: /images/
+Disallow: /fonts/
+Disallow: /.idea/
+
+# Sitemaps
+Sitemap: https://www.dagistankaradeniz.com/sitemap.xml
+
+# Crawl-delay for polite bots
+User-agent: Bingbot
+Crawl-delay: 2
+
+User-agent: Yandex
+Crawl-delay: 2

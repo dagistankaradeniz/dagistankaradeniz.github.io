@@ -1,6 +1,12 @@
 {
   "posts": [
     {
+      "filename": "fastmcp-mcp-server-client-guide.md",
+      "title": "FastMCP & MCP: Building Custom Servers and Clients for LLM & Agentic AI",
+      "date": "2026-08-01",
+      "tags": ["mcp", "fastmcp", "python", "llm", "ai", "agentic-ai", "api-integration", "tools", "resources", "oauth", "json-rpc"]
+    },
+    {
       "filename": "spring-framework-design-patterns.md",
       "title": "Design Patterns Under the Hood of Spring Framework",
       "date": "2026-07-25",

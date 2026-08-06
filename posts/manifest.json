@@ -1,6 +1,12 @@
 {
   "posts": [
     {
+      "filename": "distributed-consensus-algorithms.md",
+      "title": "Distributed Consensus: Paxos, Raft, and How Distributed Systems Agree",
+      "date": "2026-08-07",
+      "tags": ["distributed-systems", "consensus", "paxos", "raft", "zab", "bft", "pbft", "database", "etcd", "zookeeper", "spanner", "cockroachdb", "kafka", "kubernetes"]
+    },
+    {
       "filename": "fastmcp-mcp-server-client-guide.md",
       "title": "FastMCP & MCP: Building Custom Servers and Clients for LLM & Agentic AI",
       "date": "2026-08-01",

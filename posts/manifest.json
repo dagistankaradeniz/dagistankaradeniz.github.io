@@ -1,8 +1,8 @@
 {
   "posts": [
     {
-      "filename": "distributed-consensus-algorithms.md",
-      "title": "Distributed Consensus: Paxos, Raft, and How Distributed Systems Agree",
+      "filename": "majority-rules-paxos-raft.md",
+      "title": "Majority Rules: How Paxos and Raft Make Distributed Systems Agree",
       "date": "2026-08-07",
       "tags": ["distributed-systems", "consensus", "paxos", "raft", "zab", "bft", "pbft", "database", "etcd", "zookeeper", "spanner", "cockroachdb", "kafka", "kubernetes"]
     },

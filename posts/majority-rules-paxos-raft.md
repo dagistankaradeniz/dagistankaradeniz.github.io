@@ -1,10 +1,10 @@
 ---
-title: "Distributed Consensus: Paxos, Raft, and How Distributed Systems Agree"
+title: "Majority Rules: How Paxos and Raft Make Distributed Systems Agree"
 date: 2026-08-07
 tags: ["distributed-systems", "consensus", "paxos", "raft", "zab", "bft", "pbft", "database", "etcd", "zookeeper", "spanner", "cockroachdb", "kafka", "kubernetes"]
 ---
 
-# Distributed Consensus: Paxos, Raft, and How Distributed Systems Agree
+# Majority Rules: How Paxos and Raft Make Distributed Systems Agree
 
 Every time you run `kubectl apply`, every time a CockroachDB transaction commits, every time a Kafka broker records the cluster's metadata — a group of machines just agreed on something despite the fact that some of them may be slow, dead, or temporarily cut off from the rest. That agreement is **distributed consensus**: the problem of getting `N` machines to agree on a single value (or an ordered sequence of values) even when processes crash and the network drops, duplicates, or reorders messages.
 
@@ -202,6 +202,55 @@ Production databases also fine-tune the "one leader serves everything" rule:
 
 ---
 
+## Who's Running What Today
+
+Consensus is no longer exotic — it's the load-bearing infrastructure underneath most of the modern data stack. If you've touched Kubernetes, Kafka, or a cloud SQL database this week, you've used it. A snapshot of production systems by algorithm:
+
+### Raft (the workhorse)
+
+| System | What it uses Raft for |
+|---|---|
+| **etcd** | The whole store — and via it, **Kubernetes** (every API-server state change), service discovery, lock servers |
+| **Kafka (KRaft)** | Cluster metadata (topics, partitions, configs) — replaced ZooKeeper |
+| **Consul / Vault / Nomad** | Strongly-consistent KV, service catalog, and leader election (HashiCorp's Raft library) |
+| **CockroachDB** | One Raft group per 64 MB range; leaseholder + non-voting replicas |
+| **TiKV / TiDB** | One Raft group per region, driven by the Placement Driver |
+| **MongoDB** | A *pull-based variant* of Raft — secondaries fetch the oplog from any peer, not just the primary; up to 7 voting members, 50 total (formally specified in TLA+) |
+| **ScyllaDB** | Raft for schema + topology changes, and now strongly consistent tables (one group per tablet) |
+| **YugabyteDB** | Per-tablet Raft groups in the DocDB storage layer |
+| **Redpanda** | Raft for data replication across partitions |
+| **Neo4j** | Causal clustering (catalog + data replication) |
+| **Hazelcast** | In-process CP subsystem — distributed locks, semaphores, counters |
+| **RabbitMQ** | **Quorum queues** and streams — durable replicated queues (default since 4.0) |
+| **NATS JetStream** | One Raft group per stream and per consumer, plus a cluster-wide meta group |
+| **ClickHouse** | Keeper — its ZooKeeper-compatible service, built on Raft |
+| **IBM MQ** | Replicated log for high-availability queue managers |
+| **Splunk** | Search head cluster state |
+| **Camunda** | Data replication in the Zeebe engine |
+
+### Paxos (the premium tier — fewer, heavier users)
+
+| System | What it uses Paxos for |
+|---|---|
+| **Google Spanner** | Multi-Paxos groups per shard + TrueTime for globally ordered transactions |
+| **Google Chubby** | The classic lock service (and the paper every Paxos implementation quotes as "hard") |
+| **OceanBase** (Ant Group) | Multi-Paxos replication of log streams across zones; survives a full zone/DC loss |
+| **PolarDB** (Alibaba) | PALF — a Paxos-backed append-only log with batching + pipelining for low commit latency |
+| **PaxosStore** (Tencent/WeChat) | Leaseless Paxos at WeChat scale — thousands of machines, billions of peak TPS (accounts, payments, Moments) |
+| **Ceph** | The MON monitor quorum uses Paxos to agree on the cluster map |
+| **FoundationDB** | Paxos-based commit/recovery for its transactional metadata |
+
+### Zab & BFT (the specialists)
+
+- **Zab**: **Apache ZooKeeper** — the coordination service behind HBase, Hadoop, and pre-KRaft Kafka. ZooKeeper is being retired from many stacks (Kafka moved, ClickHouse replaced it), but it remains the archetype of the "coordination service as a product."
+- **BFT**: **Hyperledger Fabric** (PBFT-style ordering), **Tendermint/Cosmos** (Byzantine consensus with slashing), and **Aptos/Diem** (HotStuff-derived). All of these assume *lying* nodes, not just dead ones — which is why they pay the `3f+1` tax.
+
+### The emerging trend
+
+Notice how many Raft deployments are **per-partition**: Kafka, Redpanda, NATS, ScyllaDB, and the per-range databases all run a Raft group *per shard* rather than one global log. That's the sharding pattern above, generalized: consensus is now a primitive you embed, not a service you run — which is exactly why Raft libraries (`etcd/raft`, `hashicorp/raft`, RabbitMQ's `ra`) took off. If you're adding fault-tolerant replication to a new system in 2026, you embed a Raft library and get a replicated log for free.
+
+---
+
 ## Where Consensus Actually Breaks in Production
 
 Consensus algorithms get all the fame; **deployment gets all the blame**. In production, the failure modes are rarely the algorithm — they're:
@@ -243,4 +292,11 @@ If you're building a new strongly-consistent service today, use Raft and a matur
 - [Google Cloud Spanner — Replication (Paxos)](https://cloud.google.com/spanner/docs/replication)
 - [TiKV — Deep Dive (Raft consensus)](https://tikv.github.io/deep-dive-tikv/consensus-algorithm/introduction.html)
 - [HashiCorp Consul — Consensus (Raft)](https://developer.hashicorp.com/consul/docs/architecture/consensus)
+- [MongoDB — Fault-Tolerant Replication with Pull-Based Consensus (NSDI 2021)](https://www.usenix.org/system/files/nsdi21-zhou.pdf)
+- [ScyllaDB — Raft for Strong Consistency](https://docs.scylladb.com/stable/architecture/raft.html)
+- [RabbitMQ — Quorum Queues (Raft)](https://www.rabbitmq.com/docs/quorum-queues)
+- [NATS — JetStream Clustering (Raft)](https://docs.nats.io/running-a-nats-service/configuration/clustering/jetstream_clustering)
+- [OceanBase — Distributed Relational Database (Paxos)](https://github.com/oceanbase/oceanbase)
+- [Tencent PaxosStore (Paxos at WeChat scale)](https://github.com/Tencent/paxosstore)
+- [FoundationDB — Distributed Transactional KV Store](https://github.com/apple/foundationdb)
 - [The Secret Lives of Data (interactive Raft guide)](http://thesecretlivesofdata.com/raft/)

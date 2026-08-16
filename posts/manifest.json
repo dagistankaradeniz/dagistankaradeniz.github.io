@@ -1,6 +1,12 @@
 {
   "posts": [
     {
+      "filename": "jvm-powers-distributed-systems.md",
+      "title": "The JVM Won the Data Plane. Nobody Noticed.",
+      "date": "2026-08-16",
+      "tags": ["jvm", "java", "distributed-systems", "kafka", "cassandra", "elasticsearch", "flink", "spark", "zookeeper", "pulsar", "neo4j", "netty", "garbage-collection", "zgc", "off-heap"]
+    },
+    {
       "filename": "majority-rules-paxos-raft.md",
       "title": "Majority Rules: How Paxos and Raft Make Distributed Systems Agree",
       "date": "2026-08-07",

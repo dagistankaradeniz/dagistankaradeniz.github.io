@@ -1,6 +1,6 @@
 ---
 title: "One Endpoint Doesn't Fit All: A Field Guide to Integration Protocols"
-date: 2026-08-23
+date: 2026-08-21
 tags: [api, soap, rest, grpc, websocket, sse, graphql, webtransport, http, integration]
 ---
 

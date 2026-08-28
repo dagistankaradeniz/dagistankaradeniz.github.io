@@ -13,19 +13,13 @@ That's observability. The OpenTelemetry observability primer defines it precisel
 Observability is conventionally built from three pillars: **logs**, **metrics**, and **distributed traces**. This post walks through each one — its purpose, its strengths and blind spots, its standards — and shows concrete Java/Spring Boot examples for each. We'll also cover the concepts that bind them together (golden signals, SLI/SLO, RED/USE, correlation) and the modern standards that finally make the three pillars interoperate.
 
 ```mermaid
-graph TD
-    App[Instrumented Service] --> L[Logs]
-    App --> M[Metrics]
-    App --> T[Traces]
-    L --> OTLP[OpenTelemetry Collector]
-    M --> OTLP
-    T --> OTLP
-    OTLP --> B[Observability Backend]
-    subgraph Correlation
-        C1[Trace ID in every log line]
-        C2[Metric labels from spans]
-        C3[Same resource attributes across all 3]
+graph LR
+    subgraph Service["Instrumented Service"]
+        App[Application code]
     end
+    App -->|traces & metrics| C[OpenTelemetry Collector]
+    App -->|logs + trace context| C
+    C -->|OTLP| B[Observability Backend]
 ```
 
 ---

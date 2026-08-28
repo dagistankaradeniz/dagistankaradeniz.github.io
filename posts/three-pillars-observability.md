@@ -1,5 +1,5 @@
 ---
-title: "The Three Pillars of Observability: Logs, Metrics, and Distributed Tracing"
+title: "Three Signals, One Picture: Logs, Metrics, and Traces"
 date: 2026-08-28
 tags: [observability, logs, metrics, tracing, opentelemetry, spring-boot, java, micrometer, prometheus, sre, monitoring]
 ---

@@ -1,6 +1,12 @@
 {
   "posts": [
     {
+      "filename": "three-pillars-observability.md",
+      "title": "The Three Pillars of Observability: Logs, Metrics, and Distributed Tracing",
+      "date": "2026-08-28",
+      "tags": ["observability", "logs", "metrics", "tracing", "opentelemetry", "spring-boot", "java", "micrometer", "prometheus", "sre", "monitoring", "distributed-tracing"]
+    },
+    {
       "filename": "api-integration-protocols.md",
       "title": "One Endpoint Doesn't Fit All: A Field Guide to Integration Protocols",
       "date": "2026-08-21",

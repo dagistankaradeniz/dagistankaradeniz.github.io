@@ -1,6 +1,12 @@
 {
   "posts": [
     {
+      "filename": "graph-clustering-similarity-algorithms.md",
+      "title": "Modularity Is a Start, Not the Answer: Graph Algorithms for Clustering, Similarity & Community Detection",
+      "date": "2026-09-04",
+      "tags": ["graphs", "algorithms", "networkx", "python", "community-detection", "clustering", "similarity", "centrality", "network-analysis", "data-science"]
+    },
+    {
       "filename": "three-pillars-observability.md",
       "title": "Three Signals, One Picture: Logs, Metrics, and Traces",
       "date": "2026-08-28",

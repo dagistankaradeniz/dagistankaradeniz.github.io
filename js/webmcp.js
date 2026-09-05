@@ -94,14 +94,97 @@
         return result;
     }
 
+    /* Parse a resume `<span class="company">` value like
+     * "Callsign Ltd. London-UK - 2026-now" into company / location / period. */
+    function parseCompany(str) {
+        var parts = str.split(' - ');
+        var org = parts[0] ? parts[0].trim() : '';
+        var period = parts[1] ? parts[1].trim() : '';
+        var location = null;
+        var m = org.match(/^(.*?)(\s+)([A-Za-z]+-[A-Z]{2})$/);
+        if (m) {
+            org = m[1].trim();
+            location = m[3];
+        }
+        return { company: org, location: location, period: period };
+    }
+
+    /* Read the work history straight from the CV section DOM, so it stays
+     * in sync with the page without a second source of truth. Only entries
+     * under the "Work" heading are included (education is excluded). */
+    function parseExperience() {
+        var out = [];
+        var list = document.querySelector('#fh5co-resume .timeline');
+        if (!list) return out;
+
+        var inWork = false;
+        var items = list.children;
+        for (var i = 0; i < items.length; i++) {
+            var li = items[i];
+            if (li.classList.contains('timeline-heading')) {
+                var heading = li.querySelector('h3');
+                inWork = !!(heading && /work/i.test(heading.textContent));
+                continue;
+            }
+            if (!inWork) continue;
+
+            var panel = li.querySelector('.timeline-panel');
+            if (!panel) continue;
+            var titleEl = panel.querySelector('.timeline-title');
+            var companyEl = panel.querySelector('.company');
+            var bodyEl = panel.querySelector('.timeline-body');
+            if (!titleEl || !companyEl) continue;
+
+            var entry = parseCompany(companyEl.textContent.trim());
+            entry.role = titleEl.textContent.trim();
+            entry.description = bodyEl
+                ? bodyEl.textContent.replace(/\s+/g, ' ').trim()
+                : '';
+            out.push(entry);
+        }
+        return out;
+    }
+
+    /* Read the skills section DOM (percent charts). */
+    function parseSkills() {
+        var out = [];
+        var charts = document.querySelectorAll('#fh5co-skills .chart');
+        for (var i = 0; i < charts.length; i++) {
+            var el = charts[i];
+            var strong = el.querySelector('strong');
+            if (!strong) continue;
+            out.push({
+                skill: strong.textContent.trim(),
+                level: parseInt(el.getAttribute('data-percent'), 10) || 0
+            });
+        }
+        return out;
+    }
+
     function buildTools() {
         return [
             {
                 name: 'get_profile',
-                description: 'Get the site owner\'s profile: name, role, location, employer, bio, and social links.',
+                description: 'Get the site owner\'s identity: name, role, location, current employer, bio, and social links. For the full work history use get_experience; for the skills list use get_skills.',
                 inputSchema: { type: 'object', properties: {} },
                 execute: function () {
                     return textResult(JSON.stringify(PROFILE, null, 2));
+                }
+            },
+            {
+                name: 'get_experience',
+                description: 'Get the site owner\'s complete work history (CV): role, company, location, period, and a short description for each position.',
+                inputSchema: { type: 'object', properties: {} },
+                execute: function () {
+                    return textResult(JSON.stringify(parseExperience(), null, 2));
+                }
+            },
+            {
+                name: 'get_skills',
+                description: 'Get the site owner\'s professional skills with their proficiency level (0-100) as listed on the page.',
+                inputSchema: { type: 'object', properties: {} },
+                execute: function () {
+                    return textResult(JSON.stringify(parseSkills(), null, 2));
                 }
             },
             {

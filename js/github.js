@@ -151,34 +151,17 @@
     }
 
     function initContribChart() {
-        var EMPTY_CELL   = '#ebedf0';
-        var DARK_EMPTY   = '#1a2130';
-        var BRIGHT_GREEN = '39D353';
         var container = document.getElementById('github-contrib-svg');
         if (!container) return;
 
-        fetch('https://ghchart.rshah.org/' + BRIGHT_GREEN + '/dagistankaradeniz')
-            .then(function (res) { return res.text(); })
-            .then(function (svg) {
-                svg = svg.replace(new RegExp(EMPTY_CELL, 'gi'), DARK_EMPTY);
-                if (window.DOMPurify) {
-                    container.innerHTML = window.DOMPurify.sanitize(svg, { USE_PROFILES: { svg: true, svgFilters: true } });
-                }
-                var el = container.querySelector('svg');
-                if (el) {
-                    el.style.width  = '100%';
-                    el.style.height = 'auto';
-                    el.querySelectorAll('text').forEach(function (t) {
-                        var fs = parseFloat(t.getAttribute('font-size')) || 9;
-                        t.setAttribute('font-size', fs * 2);
-                    });
-                }
-            })
-            .catch(function () {
-                container.innerHTML =
-                    '<img src="https://ghchart.rshah.org/' + BRIGHT_GREEN +
-                    '/dagistankaradeniz" style="max-width:100%;height:auto;">';
-            });
+        // ghchart.rshah.org sends no CORS headers, so use a plain <img> (which
+        // is not subject to the same-origin policy) instead of fetch().
+        var img = document.createElement('img');
+        img.src = 'https://ghchart.rshah.org/39D353/dagistankaradeniz';
+        img.alt = 'GitHub contribution chart for the last year';
+        img.style.maxWidth = '100%';
+        img.style.height = 'auto';
+        container.appendChild(img);
     }
 
     function init() {

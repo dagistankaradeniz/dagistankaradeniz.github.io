@@ -1062,6 +1062,21 @@ h1, h2, h3, h4, h5, h6, figure {
   margin-bottom: 0;
 }
 
+#fh5co-footer .webmcp-note {
+  margin-top: 12px;
+  font-size: 0.8em;
+  color: #9aa4af;
+}
+
+#fh5co-footer .webmcp-note a {
+  color: #00C899;
+}
+
+#fh5co-footer .webmcp-note a:hover,
+#fh5co-footer .webmcp-note a:focus {
+  color: #4ECCA3;
+}
+
 .contact-info {
   margin-bottom: 4em;
   padding: 0;
@@ -2655,6 +2670,19 @@ input[type="text"] {
 [data-theme="light"] #fh5co-footer {
   color: #6b7280;
   background: #f0f3f4;
+}
+
+[data-theme="light"] #fh5co-footer .webmcp-note {
+  color: #6b7280;
+}
+
+[data-theme="light"] #fh5co-footer .webmcp-note a {
+  color: #0b7a63;
+}
+
+[data-theme="light"] #fh5co-footer .webmcp-note a:hover,
+[data-theme="light"] #fh5co-footer .webmcp-note a:focus {
+  color: #065f4d;
 }
 
 /* --- FAB light mode overrides --- */

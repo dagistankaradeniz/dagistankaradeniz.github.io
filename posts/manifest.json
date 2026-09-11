@@ -1,6 +1,12 @@
 {
   "posts": [
     {
+      "filename": "turing-test-imitation-game.md",
+      "title": "Fooling the Judge: The Turing Test from 1950 to the Post-Quantum Age",
+      "date": "2026-09-11",
+      "tags": ["turing-test", "ai", "artificial-intelligence", "llm", "gpt", "computability", "algorithms", "turing-machine", "cryptography", "captcha", "adversarial-ml", "post-quantum", "quantum-computing", "philosophy"]
+    },
+    {
       "filename": "graph-clustering-similarity-algorithms.md",
       "title": "Modularity Is a Start, Not the Answer: Graph Algorithms for Clustering, Similarity & Community Detection",
       "date": "2026-09-04",

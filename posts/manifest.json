@@ -1,6 +1,12 @@
 {
   "posts": [
     {
+      "filename": "feature-toggles-feature-flags.md",
+      "title": "The Toggle That Bankrupted a Firm",
+      "date": "2026-09-20",
+      "tags": ["feature-toggles", "feature-flags", "devops", "java", "spring-boot", "togglz", "ff4j", "unleash", "openfeature", "launchdarkly", "continuous-delivery", "incident-analysis", "knight-capital", "release-management", "experimentation"]
+    },
+    {
       "filename": "turing-test-imitation-game.md",
       "title": "Fooling the Judge: The Turing Test from 1950 to the Post-Quantum Age",
       "date": "2026-09-11",

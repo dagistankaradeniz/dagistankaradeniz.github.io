@@ -1064,12 +1064,13 @@ h1, h2, h3, h4, h5, h6, figure {
 
 #fh5co-footer .webmcp-note {
   margin-top: 12px;
-  font-size: 0.8em;
-  color: #9aa4af;
+  font-size: 0.78em;
+  color: #777;
+  opacity: 0.4;
 }
 
 #fh5co-footer .webmcp-note a {
-  color: #00C899;
+  color: inherit;
 }
 
 #fh5co-footer .webmcp-note a:hover,
@@ -2674,15 +2675,16 @@ input[type="text"] {
 
 [data-theme="light"] #fh5co-footer .webmcp-note {
   color: #6b7280;
+  opacity: 0.4;
 }
 
 [data-theme="light"] #fh5co-footer .webmcp-note a {
-  color: #0b7a63;
+  color: inherit;
 }
 
 [data-theme="light"] #fh5co-footer .webmcp-note a:hover,
 [data-theme="light"] #fh5co-footer .webmcp-note a:focus {
-  color: #065f4d;
+  color: #0b7a63;
 }
 
 /* --- FAB light mode overrides --- */

@@ -1,6 +1,12 @@
 {
   "posts": [
     {
+      "filename": "critical-systems-safety-mission-business-security-critical.md",
+      "title": "What Critical Actually Costs",
+      "date": "2026-09-26",
+      "tags": ["critical-systems", "safety-critical", "mission-critical", "business-critical", "security-critical", "systems-engineering", "risk-engineering", "fault-tolerance", "reliability", "sre", "avionics", "do-178c", "iec-61508", "nist", "ai", "llm", "software-engineering", "architecture", "incident-analysis"]
+    },
+    {
       "filename": "feature-toggles-feature-flags.md",
       "title": "The Toggle That Bankrupted a Firm",
       "date": "2026-09-20",

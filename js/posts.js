@@ -184,6 +184,34 @@
         return d.toLocaleDateString('en-GB', { year: 'numeric', month: 'short', day: 'numeric' });
     }
 
+    /* ----------------------------------------------------------
+     *  Publication date gate
+     *
+     *  A post is visible only once its date is today or earlier, measured
+     *  in POST_DATE_TIMEZONE rather than the visitor's local timezone — so
+     *  a post dated 2026-10-01 goes live at 00:00 London time for
+     *  everyone simultaneously, not at each reader's own midnight.
+     *
+     *  This filters the listing, the tag pills, search, pagination and the
+     *  #post=<stem> direct-link gate (all of which read `allPosts`). The
+     *  .md file itself is still a static asset once committed, so this is a
+     *  "not yet listed" gate, not an access control mechanism.
+     * ---------------------------------------------------------- */
+    var POST_DATE_TIMEZONE = 'Europe/London';
+    var ISO_DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
+
+    function todayInPostTimezone(now) {
+        return new Intl.DateTimeFormat('en-CA', { timeZone: POST_DATE_TIMEZONE })
+            .format(now || new Date());
+    }
+
+    function isPublished(dateStr, today) {
+        if (!dateStr) return true;                          // no date: treat as live
+        var d = String(dateStr).trim();
+        if (!ISO_DATE_RE.test(d)) return true;              // unparseable: don't hide it
+        return d <= today;                                  // ISO dates compare correctly as strings
+    }
+
     function tagsHtml(tags) {
         if (!tags || !tags.length) return '';
         return tags.map(function (t) {
@@ -688,7 +716,10 @@
         fetch('posts/manifest.json')
             .then(function (r) { return r.json(); })
             .then(function (data) {
-                allPosts = (data.posts || []).sort(function (a, b) {
+                var today = todayInPostTimezone();
+                allPosts = (data.posts || []).filter(function (post) {
+                    return isPublished(post.date, today);
+                }).sort(function (a, b) {
                     return new Date(b.date || 0) - new Date(a.date || 0);
                 });
                 applyFilters();

@@ -1,8 +1,7 @@
 @font-face {
   font-family: 'icomoon';
-  /* woff2 first: it is the only format every current browser needs, and it
-     is roughly half the size of the woff. ttf/woff remain as fallbacks. */
-  src: url("../fonts/icomoon/icomoon.woff2") format("woff2"), url("../fonts/icomoon/icomoon.woff") format("woff"), url("../fonts/icomoon/icomoon.ttf") format("truetype");
+  src: url("../fonts/icomoon/icomoon.eot?srf3rx");
+  src: url("../fonts/icomoon/icomoon.eot?srf3rx#iefix") format("embedded-opentype"), url("../fonts/icomoon/icomoon.ttf?srf3rx") format("truetype"), url("../fonts/icomoon/icomoon.woff?srf3rx") format("woff"), url("../fonts/icomoon/icomoon.svg?srf3rx#icomoon") format("svg");
   font-weight: normal;
   font-style: normal;
 }

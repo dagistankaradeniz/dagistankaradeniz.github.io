@@ -116,17 +116,33 @@
         var html = '';
         rows.forEach(function (row, i) {
             var ci = row.interval90 || {};
+            var score = currentScore(row);
+            var scorable = typeof score === 'number' && isFinite(score);
+            var pct = scorable ? Math.max(0, Math.min(100, score)) : 0;
             html += '<tr>';
             html += '<td class="bench-rank">' + (i + 1) + '</td>';
             html += '<td class="bench-model">' + escapeHtml(row.model) + '</td>';
             html += '<td class="bench-creator">' + escapeHtml(row.creator) + '</td>';
-            html += '<td class="bench-score">' + num(currentScore(row)) + '</td>';
+            // data-value carries the raw number so the count-up can animate to
+            // the exact figure; the text is the real value up front, so a JS
+            // failure leaves a correct (if unanimated) table rather than a
+            // table of zeroes.
+            html += '<td class="bench-score">';
+            html += '<span class="bench-score-val" data-value="' + (scorable ? score : '') + '" data-decimals="2">' +
+                num(score) + '</span>';
+            if (scorable) {
+                html += '<span class="bench-bar" aria-hidden="true">' +
+                    '<span class="bench-bar-fill" style="width:' + pct.toFixed(2) + '%"></span></span>';
+            }
+            html += '</td>';
             html += '<td class="bench-ci">' + num(ci.lower, 1) + ' – ' + num(ci.upper, 1) + '</td>';
             html += '<td class="bench-evidence">' + escapeHtml(evidenceLabel(row)) + '</td>';
             html += '<td class="bench-price">' + price(row.inputPrice) + ' / ' + price(row.outputPrice) + '</td>';
             html += '</tr>';
         });
         tbody.innerHTML = html;
+
+        animateRows();
     }
 
     function renderNote() {
@@ -162,6 +178,129 @@
         if (tbody) {
             tbody.innerHTML = '<tr><td colspan="7" class="posts-loading">Loading benchmark data…</td></tr>';
         }
+    }
+
+    /* ------------------------------------------------------------------
+     * Reveal animation. Runs once per rendered table, on first scroll into
+     * view, or immediately if the section is already on screen (e.g. the
+     * reader filtered a category while looking at it).
+     *
+     * Everything is driven from a single requestAnimationFrame loop so the
+     * count-up and the bar stay exactly in step. The pre-animation state is
+     * only applied once we know we are going to animate — if the section
+     * never scrolls into view, or JS throws, the table keeps its real values.
+     * ------------------------------------------------------------------ */
+
+    var REDUCED = window.matchMedia
+        ? window.matchMedia('(prefers-reduced-motion: reduce)')
+        : null;
+
+    function motionAllowed() {
+        return !(REDUCED && REDUCED.matches);
+    }
+
+    function easeOutExpo(t) {
+        return t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
+    }
+
+    function countUp(el, target, decimals, delay, duration) {
+        var start = null;
+
+        function step(now) {
+            if (start === null) start = now;
+            var elapsed = now - start - delay;
+            if (elapsed < 0) {
+                requestAnimationFrame(step);
+                return;
+            }
+            var t = Math.min(1, elapsed / duration);
+            var eased = easeOutExpo(t);
+            el.textContent = (target * eased).toFixed(decimals);
+            if (t < 1) {
+                requestAnimationFrame(step);
+            } else {
+                el.textContent = target.toFixed(decimals);
+            }
+        }
+
+        requestAnimationFrame(step);
+    }
+
+    function animateRows() {
+        if (!tbody || !rows.length) return;
+        var trs = tbody.querySelectorAll('tr');
+        if (!trs.length) return;
+
+        if (!motionAllowed()) return;
+
+        // Swap the table into its pre-animation state only now that we are
+        // committed to animating.
+        tbody.classList.add('bench-anim');
+        var cells = [];
+        Array.prototype.forEach.call(trs, function (tr) {
+            var valEl = tr.querySelector('.bench-score-val');
+            var fillEl = tr.querySelector('.bench-bar-fill');
+            var raw = valEl && valEl.getAttribute('data-value');
+            var parsed = (raw === '' || raw == null) ? NaN : parseFloat(raw);
+            var decimals = valEl ? (parseInt(valEl.getAttribute('data-decimals'), 10) || 0) : 0;
+
+            cells.push({
+                tr: tr,
+                valEl: valEl,
+                fillEl: fillEl,
+                target: isFinite(parsed) ? parsed : null,
+                decimals: decimals
+            });
+
+            if (valEl && isFinite(parsed)) valEl.textContent = (0).toFixed(decimals);
+            if (fillEl) fillEl.style.width = '0%';
+        });
+
+        var ROW_STAGGER = 45;
+        var DURATION = 850;
+
+        // Safety net: whatever happens during the animation, the table must
+        // end up visible. Dropping the pre-animation class forces that.
+        function settle() {
+            tbody.classList.remove('bench-anim');
+        }
+
+        function run() {
+            cells.forEach(function (cell, i) {
+                var delay = i * ROW_STAGGER;
+                if (cell.target !== null && cell.valEl) {
+                    countUp(cell.valEl, cell.target, cell.decimals, delay, DURATION);
+                }
+                if (cell.fillEl && cell.target !== null) {
+                    var pct = Math.max(0, Math.min(100, cell.target));
+                    cell.fillEl.style.transition = 'width ' + DURATION + 'ms cubic-bezier(0.16, 1, 0.3, 1) ' + delay + 'ms';
+                    cell.fillEl.style.width = pct.toFixed(2) + '%';
+                }
+                setTimeout(function () {
+                    cell.tr.classList.add('bench-row-in');
+                }, delay);
+            });
+            setTimeout(settle, cells.length * ROW_STAGGER + DURATION + 400);
+        }
+
+        // Fire immediately when the section is already in view, otherwise
+        // wait for it to scroll in.
+        var wrap = document.querySelector('#fh5co-benchmarks .bench-table-wrap');
+        if (!wrap) { run(); return; }
+        var rect = wrap.getBoundingClientRect();
+        if (rect.top < window.innerHeight && rect.bottom > 0) { run(); return; }
+
+        if (typeof IntersectionObserver !== 'function') { run(); return; }
+        var io = new IntersectionObserver(function (entries) {
+            for (var i = 0; i < entries.length; i++) {
+                if (entries[i].isIntersecting) {
+                    io.disconnect();
+                    run();
+                    return;
+                }
+            }
+        }, { threshold: 0.15 });
+        io.observe(wrap);
     }
 
     function setError() {

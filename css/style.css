@@ -2315,6 +2315,48 @@ input[type="text"] {
   color: #4ECCA3;
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
+  min-width: 96px;
+}
+
+.bench-score-val {
+  display: inline-block;
+}
+
+/* Magnitude bar. The fill is written with its final width in the markup, so
+   it is correct before any JS runs; the animation drives it from 0. */
+.bench-bar {
+  display: block;
+  width: 88px;
+  height: 3px;
+  margin-top: 7px;
+  border-radius: 2px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.bench-bar-fill {
+  display: block;
+  height: 100%;
+  width: 0;
+  border-radius: 2px;
+  background: #4ECCA3;
+}
+
+/* Pre-animation state is only ever applied by the script, once it has
+   committed to animating, so a JS failure leaves a readable table. */
+.bench-anim tr {
+  opacity: 0;
+  transform: translateY(7px);
+}
+
+.bench-anim tr,
+.bench-anim td {
+  transition: opacity 420ms ease, transform 420ms ease;
+}
+
+.bench-anim tr.bench-row-in {
+  opacity: 1;
+  transform: none;
 }
 
 .bench-table a {
@@ -2600,6 +2642,14 @@ input[type="text"] {
 
 [data-theme="light"] .bench-score {
   color: #2d9d78;
+}
+
+[data-theme="light"] .bench-bar {
+  background: rgba(27, 31, 36, 0.12);
+}
+
+[data-theme="light"] .bench-bar-fill {
+  background: #2d9d78;
 }
 
 [data-theme="light"] .bench-table a {

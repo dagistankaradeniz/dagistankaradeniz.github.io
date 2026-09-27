@@ -301,7 +301,7 @@ h1, h2, h3, h4, h5, h6, figure {
 #fh5co-resume,
 #fh5co-skills,
 #fh5co-posts,
-#fh5co-github,
+#fh5co-benchmarks,
 #fh5co-started,
 #fh5co-work,
 #fh5co-blog,
@@ -315,7 +315,7 @@ h1, h2, h3, h4, h5, h6, figure {
   #fh5co-resume,
   #fh5co-skills,
   #fh5co-posts,
-  #fh5co-github,
+  #fh5co-benchmarks,
   #fh5co-started,
   #fh5co-work,
   #fh5co-blog,
@@ -434,37 +434,9 @@ h1, h2, h3, h4, h5, h6, figure {
   background: #003C2E;
 }
 
-.github-contrib-section {
-  margin-top: 3em;
-  clear: both;
-}
-
-#fh5co-github .fh5co-heading {
+.bench-filter-bar {
   margin-bottom: 1.5em;
-}
-
-#fh5co-github .github-contrib-section {
-  margin-top: 0;
-  margin-bottom: 2.5em;
-}
-.github-contrib-title {
-  color: #4ECCA3;
-  font-size: 18px;
-  margin-bottom: 1.2em;
-  letter-spacing: 0.03em;
-}
-.github-contrib-chart {
-  display: inline-block;
-  background: #2d3540;
-  border: 1px solid #393E46;
-  border-radius: 6px;
-  padding: 18px 20px;
-  max-width: 100%;
-}
-.github-contrib-img {
-  display: block;
-  max-width: 100%;
-  height: auto;
+  text-align: center;
 }
 
 .fh5co-heading {
@@ -2272,25 +2244,92 @@ input[type="text"] {
   opacity: 1;
 }
 
-/* GitHub section repo table */
-.github-repo-desc {
-  display: block;
-  font-size: 12px;
-  color: #888;
-  margin-top: 4px;
-  margin-bottom: 2px;
+/* Coding agent benchmark section */
+.bench-table-wrap {
+  overflow-x: auto;
+  background: #2d3540;
+  border: 1px solid #393E46;
+  border-radius: 6px;
+  padding: 8px 18px 18px;
 }
 
-.github-repo-stars {
-  display: inline-block;
+.bench-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0;
+  color: #cfd2d6;
+  font-size: 15px;
+}
+
+.bench-caption {
+  caption-side: top;
+  text-align: left;
+  color: #9aa0a6;
+  font-size: 13px;
+  padding: 12px 0 14px;
+  letter-spacing: 0.02em;
+}
+
+.bench-table th,
+.bench-table td {
+  text-align: left;
+  padding: 12px 10px;
+  border-bottom: 1px solid #393E46;
+  vertical-align: top;
+}
+
+.bench-table thead th {
   color: #4ECCA3;
+  font-weight: 600;
   font-size: 12px;
-  margin-right: 8px;
-  vertical-align: middle;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
 }
 
-.github-lang-tag {
-  cursor: default;
+.bench-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.bench-model {
+  color: #ffffff;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.bench-rank,
+.bench-ci,
+.bench-evidence,
+.bench-creator,
+.bench-price {
+  color: #9aa0a6;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.bench-price {
+  font-variant-numeric: tabular-nums;
+}
+
+.bench-score {
+  color: #4ECCA3;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.bench-table a {
+  color: #4ECCA3;
+}
+
+.bench-note {
+  color: #9aa0a6;
+  font-size: 12px;
+  line-height: 1.6;
+  margin-top: 1.5em;
+}
+
+.bench-note a {
+  color: #4ECCA3;
 }
 
 /* =======================================================
@@ -2439,7 +2478,7 @@ input[type="text"] {
   color: #232931 !important;
 }
 
-/* --- Dark sections (posts, github) --- */
+/* --- Dark sections (posts, benchmarks) --- */
 [data-theme="light"] .fh5co-bg-dark {
   background: #f0f3f4;
 }
@@ -2528,14 +2567,48 @@ input[type="text"] {
   color: #5a6270;
 }
 
-/* --- GitHub section --- */
-[data-theme="light"] .github-contrib-title {
+/* --- Coding agent benchmark section --- */
+[data-theme="light"] .bench-table {
+  color: #3d444d;
+}
+
+[data-theme="light"] .bench-table-wrap {
+  background: #ffffff;
+  border: 1px solid #d0d5da;
+}
+
+[data-theme="light"] .bench-table th,
+[data-theme="light"] .bench-table td {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .bench-table thead th {
   color: #2d9d78;
 }
 
-[data-theme="light"] .github-contrib-chart {
-  background: #ffffff;
-  border: 1px solid #d0d5da;
+[data-theme="light"] .bench-model {
+  color: #1b1f24;
+}
+
+[data-theme="light"] .bench-rank,
+[data-theme="light"] .bench-ci,
+[data-theme="light"] .bench-evidence,
+[data-theme="light"] .bench-creator,
+[data-theme="light"] .bench-price {
+  color: #5a6270;
+}
+
+[data-theme="light"] .bench-score {
+  color: #2d9d78;
+}
+
+[data-theme="light"] .bench-table a {
+  color: #2d9d78;
+}
+
+[data-theme="light"] .bench-caption,
+[data-theme="light"] .bench-note {
+  color: #5a6270;
 }
 
 /* --- Posts section --- */
@@ -2641,14 +2714,6 @@ input[type="text"] {
 }
 
 [data-theme="light"] .posts-disclaimer {
-  color: #2d9d78;
-}
-
-[data-theme="light"] .github-repo-desc {
-  color: #5a6270;
-}
-
-[data-theme="light"] .github-repo-stars {
   color: #2d9d78;
 }
 

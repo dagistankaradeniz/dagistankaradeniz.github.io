@@ -3,7 +3,7 @@
 	<head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' https: data: blob:; connect-src 'self' https://api.github.com https://ghchart.rshah.org; worker-src blob:; frame-src 'none'; object-src 'none'; base-uri 'self';">
+	<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' https: data: blob:; connect-src 'self' https://benchlm.ai; worker-src blob:; frame-src 'none'; object-src 'none'; base-uri 'self';">
 	<title>Dağıstan Karadeniz &mdash; 2026</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="Dağıstan Karadeniz — Computer Scientist & Software Engineer. Deep-dive blog posts on Java, Spring, JVM, security, ML/AI, cryptography, and software architecture." />
@@ -613,40 +613,43 @@
 		</div>
 	</section>
 
-	<section id="fh5co-github" class="fh5co-bg-dark" aria-label="GitHub">
+	<section id="fh5co-benchmarks" class="fh5co-bg-dark" aria-label="Coding agent benchmarks">
 		<div class="container">
 			<div class="row animate-box">
 				<div class="col-md-8 col-md-offset-2 text-center fh5co-heading">
-					<h2>GitHub</h2>
+					<h2>Coding Agent Benchmarks</h2>
+					<p>How the leading coding and agentic-capable models compare. Scores are read live from a source that publishes its dataset under CC BY-NC 4.0 for non-commercial use, and every row links back to the original publisher. This page is not affiliated with or endorsed by any of the sources listed below.</p>
 				</div>
 			</div>
 			<div class="row animate-box">
-				<div class="col-md-12 text-center github-contrib-section">
-					<div class="github-contrib-chart">
-						<div id="github-contrib-svg" class="github-contrib-img"></div>
+				<div class="col-md-12">
+					<div class="bench-filter-bar" role="group" aria-label="Filter benchmarks by source">
+						<div id="bench-source-filters" class="posts-tag-filters"></div>
 					</div>
 				</div>
 			</div>
 			<div class="row animate-box">
 				<div class="col-md-12">
-					<div class="posts-filter-bar">
-						<input type="text" id="github-search" class="posts-search-input" placeholder="Search repos...">
-						<div class="posts-tag-filters-wrap">
-							<button id="github-arrow-left" class="posts-tags-arrow hidden" aria-label="Scroll left">&#8249;</button>
-							<div id="github-lang-filters" class="posts-tag-filters"></div>
-							<button id="github-arrow-right" class="posts-tags-arrow hidden" aria-label="Scroll right">&#8250;</button>
-						</div>
+					<div class="bench-table-wrap">
+						<table class="bench-table">
+							<caption class="bench-caption" id="bench-caption">Normalised 0&ndash;100 composite score &mdash; higher is better. Intervals are the 90% confidence range around each score.</caption>
+							<thead>
+								<tr>
+									<th scope="col">#</th>
+									<th scope="col">Model</th>
+									<th scope="col">Creator</th>
+									<th scope="col">Score</th>
+									<th scope="col">90% interval</th>
+									<th scope="col">Evidence</th>
+									<th scope="col">API price in / out</th>
+								</tr>
+							</thead>
+							<tbody id="bench-tbody">
+								<tr><td colspan="7" class="posts-loading">Loading benchmark data&hellip;</td></tr>
+							</tbody>
+						</table>
 					</div>
-				</div>
-			</div>
-			<div class="row animate-box">
-				<div class="col-md-12">
-					<table class="posts-table">
-						<tbody id="github-repos-tbody">
-							<tr><td colspan="2" class="posts-loading">Loading repos...</td></tr>
-						</tbody>
-					</table>
-					<div id="github-repos-pagination" class="posts-pagination text-center"></div>
+					<p class="bench-note" id="bench-note"></p>
 				</div>
 			</div>
 		</div>
@@ -732,12 +735,12 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha384-F/bZzf7p3Joyp5psL90p/p89AZJsndkSoGwRpXcZhleCWhd8SnRuoYo4d0yirjJp" crossorigin="anonymous"></script>
 	<!-- Mermaid — diagram rendering inside posts (must load before posts.js) -->
 	<script src="https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.min.js" integrity="sha384-rbtjAdnIQE/aQJGEgXrVUlMibdfTSa4PQju4HDhN3sR2PmaKFzhEafuePsl9H/9I" crossorigin="anonymous"></script>
-	<!-- DOMPurify — HTML sanitiser, must load before posts.js and github.js -->
+	<!-- DOMPurify — HTML sanitiser, must load before posts.js -->
 	<script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.6/dist/purify.min.js" integrity="sha384-JEyTNhjM6R1ElGoJns4U2Ln4ofPcqzSsynQkmEc/KGy6336qAZl70tDLufbkla+3" crossorigin="anonymous"></script>
 	<!-- Posts -->
 	<script src="js/posts.js"></script>
-	<!-- GitHub -->
-	<script src="js/github.js"></script>
+	<!-- Coding agent benchmarks (live fetch from BenchLM's CC BY-NC 4.0 dataset) -->
+	<script src="js/benchmarks.js"></script>
 	<!-- WebMCP — expose site content to in-browser AI agents (document.modelContext) -->
 	<script src="js/webmcp.js"></script>
 

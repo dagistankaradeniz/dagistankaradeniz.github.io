@@ -72,9 +72,23 @@
         return value.toFixed(digits == null ? 2 : digits);
     }
 
-    function price(perMillion) {
-        if (typeof perMillion !== 'number' || !isFinite(perMillion) || perMillion <= 0) return '—';
-        return '$' + num(perMillion, perMillion < 1 ? 3 : 2);
+    function priceDecimals(perMillion) {
+        return perMillion < 1 ? 3 : 2;
+    }
+
+    function isPriced(perMillion) {
+        return typeof perMillion === 'number' && isFinite(perMillion) && perMillion > 0;
+    }
+
+    /* One price, with the real figure in the text and the raw number in
+     * data-value so the count-up can animate toward it. Unavailable prices
+     * stay a plain em dash with nothing to animate. The '$' is kept outside
+     * data-value so the animation can re-apply it while counting. */
+    function priceSpan(perMillion) {
+        if (!isPriced(perMillion)) return '—';
+        var d = priceDecimals(perMillion);
+        return '<span class="bench-price-val" data-value="' + perMillion + '" data-decimals="' + d +
+            '">$' + num(perMillion, d) + '</span>';
     }
 
     function evidenceLabel(row) {
@@ -137,7 +151,7 @@
             html += '</td>';
             html += '<td class="bench-ci">' + num(ci.lower, 1) + ' – ' + num(ci.upper, 1) + '</td>';
             html += '<td class="bench-evidence">' + escapeHtml(evidenceLabel(row)) + '</td>';
-            html += '<td class="bench-price">' + price(row.inputPrice) + ' / ' + price(row.outputPrice) + '</td>';
+            html += '<td class="bench-price">' + priceSpan(row.inputPrice) + ' / ' + priceSpan(row.outputPrice) + '</td>';
             html += '</tr>';
         });
         tbody.innerHTML = html;
@@ -203,8 +217,13 @@
         return t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
     }
 
-    function countUp(el, target, decimals, delay, duration) {
+    /* Counts el.textContent up to `target`. `prefix` is re-applied on every
+     * frame, which is what lets the price cells keep their '$' while they
+     * count. `onDone` is not needed — the last frame writes the exact value,
+     * and settle() re-asserts it if the loop is cut short. */
+    function countUp(el, target, decimals, delay, duration, prefix) {
         var start = null;
+        var p = prefix || '';
 
         function step(now) {
             if (start === null) start = now;
@@ -215,11 +234,11 @@
             }
             var t = Math.min(1, elapsed / duration);
             var eased = easeOutExpo(t);
-            el.textContent = (target * eased).toFixed(decimals);
+            el.textContent = p + (target * eased).toFixed(decimals);
             if (t < 1) {
                 requestAnimationFrame(step);
             } else {
-                el.textContent = target.toFixed(decimals);
+                el.textContent = p + target.toFixed(decimals);
             }
         }
 
@@ -233,54 +252,83 @@
 
         if (!motionAllowed()) return;
 
+        var ROW_STAGGER = 45;
+        var DURATION = 850;
+        // The output price trails the input price, so the eye reads them left
+        // to right in the same order the columns are laid out.
+        var PRICE_TRAIL = 120;
+
         // Swap the table into its pre-animation state only now that we are
         // committed to animating.
         tbody.classList.add('bench-anim');
-        var cells = [];
-        Array.prototype.forEach.call(trs, function (tr) {
-            var valEl = tr.querySelector('.bench-score-val');
-            var fillEl = tr.querySelector('.bench-bar-fill');
-            var raw = valEl && valEl.getAttribute('data-value');
+
+        // Everything that counts up, in one flat list, so the score and both
+        // prices of a row share a timeline and nothing can fall out of step.
+        var counts = [];
+        var fills = [];
+        var lastDelay = 0;
+
+        function addCount(el, prefix) {
+            if (!el) return;
+            var raw = el.getAttribute('data-value');
             var parsed = (raw === '' || raw == null) ? NaN : parseFloat(raw);
-            var decimals = valEl ? (parseInt(valEl.getAttribute('data-decimals'), 10) || 0) : 0;
+            if (!isFinite(parsed)) return;
+            var decimals = parseInt(el.getAttribute('data-decimals'), 10) || 0;
+            var finalText = prefix + parsed.toFixed(decimals);
+            counts.push({ el: el, target: parsed, decimals: decimals, prefix: prefix, finalText: finalText });
+            el.textContent = prefix + (0).toFixed(decimals);
+            return counts[counts.length - 1];
+        }
 
-            cells.push({
-                tr: tr,
-                valEl: valEl,
-                fillEl: fillEl,
-                target: isFinite(parsed) ? parsed : null,
-                decimals: decimals
+        Array.prototype.forEach.call(trs, function (tr, i) {
+            var base = i * ROW_STAGGER;
+
+            var scoreCount = addCount(tr.querySelector('.bench-score-val'), '');
+
+            var priceEls = tr.querySelectorAll('.bench-price-val');
+            Array.prototype.forEach.call(priceEls, function (pEl, j) {
+                var c = addCount(pEl, '$');
+                if (c) c.delay = base + j * PRICE_TRAIL;
             });
+            if (scoreCount) scoreCount.delay = base;
 
-            if (valEl && isFinite(parsed)) valEl.textContent = (0).toFixed(decimals);
-            if (fillEl) fillEl.style.width = '0%';
+            var fillEl = tr.querySelector('.bench-bar-fill');
+            if (fillEl && scoreCount) {
+                fillEl.style.width = '0%';
+                var entry = { el: fillEl, pct: Math.max(0, Math.min(100, scoreCount.target)), delay: base };
+                fills.push(entry);
+            }
+
+            setTimeout(function () {
+                tr.classList.add('bench-row-in');
+            }, base);
         });
 
-        var ROW_STAGGER = 45;
-        var DURATION = 850;
+        // The longest timeline in play — the trailing output price of the last
+        // row finishes last, so that is what has to be waited out.
+        var lastDelay = 0;
+        counts.forEach(function (c) {
+            if ((c.delay || 0) > lastDelay) lastDelay = c.delay || 0;
+        });
 
-        // Safety net: whatever happens during the animation, the table must
-        // end up visible. Dropping the pre-animation class forces that.
+        // Safety net: force the exact final state. Rows can never be left
+        // invisible and no cell can be stranded mid-count if a frame is
+        // dropped, the tab is backgrounded, or something throws.
         function settle() {
+            counts.forEach(function (c) { c.el.textContent = c.finalText; });
+            fills.forEach(function (f) { f.el.style.width = f.pct.toFixed(2) + '%'; });
             tbody.classList.remove('bench-anim');
         }
 
         function run() {
-            cells.forEach(function (cell, i) {
-                var delay = i * ROW_STAGGER;
-                if (cell.target !== null && cell.valEl) {
-                    countUp(cell.valEl, cell.target, cell.decimals, delay, DURATION);
-                }
-                if (cell.fillEl && cell.target !== null) {
-                    var pct = Math.max(0, Math.min(100, cell.target));
-                    cell.fillEl.style.transition = 'width ' + DURATION + 'ms cubic-bezier(0.16, 1, 0.3, 1) ' + delay + 'ms';
-                    cell.fillEl.style.width = pct.toFixed(2) + '%';
-                }
-                setTimeout(function () {
-                    cell.tr.classList.add('bench-row-in');
-                }, delay);
+            counts.forEach(function (c) {
+                countUp(c.el, c.target, c.decimals, c.delay || 0, DURATION, c.prefix);
             });
-            setTimeout(settle, cells.length * ROW_STAGGER + DURATION + 400);
+            fills.forEach(function (f) {
+                f.el.style.transition = 'width ' + DURATION + 'ms cubic-bezier(0.16, 1, 0.3, 1) ' + f.delay + 'ms';
+                f.el.style.width = f.pct.toFixed(2) + '%';
+            });
+            setTimeout(settle, lastDelay + DURATION + 400);
         }
 
         // Fire immediately when the section is already in view, otherwise

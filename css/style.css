@@ -2309,6 +2309,15 @@ input[type="text"] {
 
 .bench-price {
   font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* Tabular figures stop the price cell twitching as digits change during the
+   count-up; the fixed min-width keeps the "/" column from drifting. */
+.bench-price-val {
+  display: inline-block;
+  min-width: 52px;
+  text-align: right;
 }
 
 .bench-score {

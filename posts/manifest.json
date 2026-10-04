@@ -1,160 +1,515 @@
 {
   "posts": [
     {
+      "filename": "software-licenses.md",
+      "title": "Software Licenses: What They Allow and Don't Allow",
+      "date": "2026-10-16",
+      "tags": [
+        "software-licenses",
+        "open-source",
+        "mit",
+        "apache-2.0",
+        "gpl",
+        "lgpl",
+        "bsd",
+        "cc0",
+        "unlicense",
+        "isc",
+        "mpl",
+        "agpl",
+        "proprietary",
+        "copyleft",
+        "permissive",
+        "polyform"
+      ]
+    },
+    {
+      "filename": "sql-and-nosql-database-types-and-their-use-cases.md",
+      "title": "SQL and NoSQL Database Types and Their Use Cases",
+      "date": "2026-10-09",
+      "tags": [
+        "sql",
+        "nosql",
+        "databases",
+        "relational",
+        "rdbms",
+        "key-value",
+        "document",
+        "column-family",
+        "graph",
+        "postgres",
+        "mongodb",
+        "cassandra",
+        "redis",
+        "neo4j",
+        "acid",
+        "base",
+        "cap"
+      ]
+    },
+    {
       "filename": "obese-context-llm-verbosity.md",
       "title": "Obese Context",
       "date": "2026-10-02",
-      "tags": ["llm", "context-engineering", "agents-md", "claude-md", "kiro", "cursor", "copilot", "documentation", "code-review", "pull-requests", "technical-writing", "readme", "token-economics", "ai-tooling", "agentic-ai"]
+      "tags": [
+        "llm",
+        "context-engineering",
+        "agents-md",
+        "claude-md",
+        "kiro",
+        "cursor",
+        "copilot",
+        "documentation",
+        "code-review",
+        "pull-requests",
+        "technical-writing",
+        "readme",
+        "token-economics",
+        "ai-tooling",
+        "agentic-ai"
+      ]
     },
     {
       "filename": "critical-systems-safety-mission-business-security-critical.md",
       "title": "What Critical Actually Costs",
       "date": "2026-09-26",
-      "tags": ["critical-systems", "safety-critical", "mission-critical", "business-critical", "security-critical", "systems-engineering", "risk-engineering", "fault-tolerance", "reliability", "sre", "avionics", "do-178c", "iec-61508", "nist", "ai", "llm", "software-engineering", "architecture", "incident-analysis"]
+      "tags": [
+        "critical-systems",
+        "safety-critical",
+        "mission-critical",
+        "business-critical",
+        "security-critical",
+        "systems-engineering",
+        "risk-engineering",
+        "fault-tolerance",
+        "reliability",
+        "sre",
+        "avionics",
+        "do-178c",
+        "iec-61508",
+        "nist",
+        "ai",
+        "llm",
+        "software-engineering",
+        "architecture",
+        "incident-analysis"
+      ]
     },
     {
       "filename": "feature-toggles-feature-flags.md",
       "title": "The Toggle That Bankrupted a Firm",
       "date": "2026-09-20",
-      "tags": ["feature-toggles", "feature-flags", "devops", "java", "spring-boot", "togglz", "ff4j", "unleash", "openfeature", "launchdarkly", "continuous-delivery", "incident-analysis", "knight-capital", "release-management", "experimentation"]
+      "tags": [
+        "feature-toggles",
+        "feature-flags",
+        "devops",
+        "java",
+        "spring-boot",
+        "togglz",
+        "ff4j",
+        "unleash",
+        "openfeature",
+        "launchdarkly",
+        "continuous-delivery",
+        "incident-analysis",
+        "knight-capital",
+        "release-management",
+        "experimentation"
+      ]
     },
     {
       "filename": "turing-test-imitation-game.md",
       "title": "Fooling the Judge: The Turing Test from 1950 to the Post-Quantum Age",
       "date": "2026-09-11",
-      "tags": ["turing-test", "ai", "artificial-intelligence", "llm", "gpt", "computability", "algorithms", "turing-machine", "cryptography", "captcha", "adversarial-ml", "post-quantum", "quantum-computing", "philosophy"]
+      "tags": [
+        "turing-test",
+        "ai",
+        "artificial-intelligence",
+        "llm",
+        "gpt",
+        "computability",
+        "algorithms",
+        "turing-machine",
+        "cryptography",
+        "captcha",
+        "adversarial-ml",
+        "post-quantum",
+        "quantum-computing",
+        "philosophy"
+      ]
     },
     {
       "filename": "graph-clustering-similarity-algorithms.md",
       "title": "Modularity Is a Start, Not the Answer: Graph Algorithms for Clustering, Similarity & Community Detection",
       "date": "2026-09-04",
-      "tags": ["graphs", "algorithms", "networkx", "python", "community-detection", "clustering", "similarity", "centrality", "network-analysis", "data-science"]
+      "tags": [
+        "graphs",
+        "algorithms",
+        "networkx",
+        "python",
+        "community-detection",
+        "clustering",
+        "similarity",
+        "centrality",
+        "network-analysis",
+        "data-science"
+      ]
     },
     {
       "filename": "three-pillars-observability.md",
       "title": "Three Signals, One Picture: Logs, Metrics, and Traces",
       "date": "2026-08-28",
-      "tags": ["observability", "logs", "metrics", "tracing", "opentelemetry", "spring-boot", "java", "micrometer", "prometheus", "sre", "monitoring", "distributed-tracing"]
+      "tags": [
+        "observability",
+        "logs",
+        "metrics",
+        "tracing",
+        "opentelemetry",
+        "spring-boot",
+        "java",
+        "micrometer",
+        "prometheus",
+        "sre",
+        "monitoring",
+        "distributed-tracing"
+      ]
     },
     {
       "filename": "api-integration-protocols.md",
       "title": "One Endpoint Doesn't Fit All: A Field Guide to Integration Protocols",
       "date": "2026-08-21",
-      "tags": ["api", "soap", "rest", "grpc", "websocket", "sse", "graphql", "webtransport", "http", "integration"]
+      "tags": [
+        "api",
+        "soap",
+        "rest",
+        "grpc",
+        "websocket",
+        "sse",
+        "graphql",
+        "webtransport",
+        "http",
+        "integration"
+      ]
     },
     {
       "filename": "jvm-powers-distributed-systems.md",
       "title": "The JVM Won the Data Plane. Nobody Noticed.",
       "date": "2026-08-16",
-      "tags": ["jvm", "java", "distributed-systems", "kafka", "cassandra", "elasticsearch", "flink", "spark", "zookeeper", "pulsar", "neo4j", "netty", "garbage-collection", "zgc", "off-heap"]
+      "tags": [
+        "jvm",
+        "java",
+        "distributed-systems",
+        "kafka",
+        "cassandra",
+        "elasticsearch",
+        "flink",
+        "spark",
+        "zookeeper",
+        "pulsar",
+        "neo4j",
+        "netty",
+        "garbage-collection",
+        "zgc",
+        "off-heap"
+      ]
     },
     {
       "filename": "majority-rules-paxos-raft.md",
       "title": "Majority Rules: How Paxos and Raft Make Distributed Systems Agree",
       "date": "2026-08-07",
-      "tags": ["distributed-systems", "consensus", "paxos", "raft", "zab", "bft", "pbft", "database", "etcd", "zookeeper", "spanner", "cockroachdb", "kafka", "kubernetes"]
+      "tags": [
+        "distributed-systems",
+        "consensus",
+        "paxos",
+        "raft",
+        "zab",
+        "bft",
+        "pbft",
+        "database",
+        "etcd",
+        "zookeeper",
+        "spanner",
+        "cockroachdb",
+        "kafka",
+        "kubernetes"
+      ]
     },
     {
       "filename": "fastmcp-mcp-server-client-guide.md",
       "title": "FastMCP & MCP: Building Custom Servers and Clients for LLM & Agentic AI",
       "date": "2026-08-01",
-      "tags": ["mcp", "fastmcp", "python", "llm", "ai", "agentic-ai", "api-integration", "tools", "resources", "oauth", "json-rpc"]
+      "tags": [
+        "mcp",
+        "fastmcp",
+        "python",
+        "llm",
+        "ai",
+        "agentic-ai",
+        "api-integration",
+        "tools",
+        "resources",
+        "oauth",
+        "json-rpc"
+      ]
     },
     {
       "filename": "spring-framework-design-patterns.md",
       "title": "Design Patterns Under the Hood of Spring Framework",
       "date": "2026-07-25",
-      "tags": ["java", "spring", "spring-framework", "design-patterns", "gof", "aop", "ioc", "singleton", "proxy", "factory", "template-method", "observer", "reactor", "webflux", "reactive-streams", "backpressure", "operator-fusion", "architecture"]
+      "tags": [
+        "java",
+        "spring",
+        "spring-framework",
+        "design-patterns",
+        "gof",
+        "aop",
+        "ioc",
+        "singleton",
+        "proxy",
+        "factory",
+        "template-method",
+        "observer",
+        "reactor",
+        "webflux",
+        "reactive-streams",
+        "backpressure",
+        "operator-fusion",
+        "architecture"
+      ]
     },
     {
       "filename": "pulumi-vs-terraform-iac.md",
       "title": "Pulumi Deep Dive: Real Languages for Infrastructure as Code",
       "date": "2026-07-18",
-      "tags": ["iac", "pulumi", "terraform", "opentofu", "cdktf", "crossplane", "aws-cdk", "devops", "cloud", "typescript", "python"]
+      "tags": [
+        "iac",
+        "pulumi",
+        "terraform",
+        "opentofu",
+        "cdktf",
+        "crossplane",
+        "aws-cdk",
+        "devops",
+        "cloud",
+        "typescript",
+        "python"
+      ]
     },
     {
       "filename": "spring-security-overview.md",
       "title": "Spring Security: Authentication & Authorization in Depth",
       "date": "2026-07-11",
-      "tags": ["java", "spring", "spring-security", "spring-boot", "authentication", "authorization", "oauth2", "jwt", "csrf", "maven"]
+      "tags": [
+        "java",
+        "spring",
+        "spring-security",
+        "spring-boot",
+        "authentication",
+        "authorization",
+        "oauth2",
+        "jwt",
+        "csrf",
+        "maven"
+      ]
     },
     {
       "filename": "spring-ai-overview.md",
       "title": "Spring AI: Building AI Applications the Spring Way",
       "date": "2026-07-04",
-      "tags": ["java", "spring", "spring-ai", "spring-boot", "llm", "ai", "chatclient", "rag", "structured-output", "maven"]
+      "tags": [
+        "java",
+        "spring",
+        "spring-ai",
+        "spring-boot",
+        "llm",
+        "ai",
+        "chatclient",
+        "rag",
+        "structured-output",
+        "maven"
+      ]
     },
     {
       "filename": "p2p-secure-messaging-protocols.md",
       "title": "P2P Secure Messaging: Signal, Tox, Briar & Jami Compared",
       "date": "2026-06-29",
-      "tags": ["security", "cryptography", "p2p", "messaging", "signal", "tox", "briar", "jami", "e2ee", "privacy", "double-ratchet", "metadata"]
+      "tags": [
+        "security",
+        "cryptography",
+        "p2p",
+        "messaging",
+        "signal",
+        "tox",
+        "briar",
+        "jami",
+        "e2ee",
+        "privacy",
+        "double-ratchet",
+        "metadata"
+      ]
     },
     {
       "filename": "jvm-architecture-heap-stack-gc.md",
-      "title": "JVM Architecture: Heap, Stack & GC Algorithms (JDK 11–25)",
+      "title": "JVM Architecture: Heap, Stack & GC Algorithms (JDK 11\u201325)",
       "date": "2026-06-21",
-      "tags": ["jvm", "java", "garbage-collection", "heap", "stack", "jdk", "zgc", "g1gc", "shenandoah", "performance"]
+      "tags": [
+        "jvm",
+        "java",
+        "garbage-collection",
+        "heap",
+        "stack",
+        "jdk",
+        "zgc",
+        "g1gc",
+        "shenandoah",
+        "performance"
+      ]
     },
     {
       "filename": "envelope-encryption.md",
       "title": "Envelope Encryption: Data Keys & Key Encryption Keys",
       "date": "2026-06-13",
-      "tags": ["security", "cryptography", "encryption", "envelope-encryption", "aws-kms", "aes-gcm", "java", "key-management"]
+      "tags": [
+        "security",
+        "cryptography",
+        "encryption",
+        "envelope-encryption",
+        "aws-kms",
+        "aes-gcm",
+        "java",
+        "key-management"
+      ]
     },
     {
       "filename": "virtual-threads-vs-webflux-reactor.md",
       "title": "Virtual Threads vs WebFlux / Reactor",
       "date": "2026-06-06",
-      "tags": ["java", "virtual-threads", "project-loom", "webflux", "project-reactor", "reactive", "spring-boot", "concurrency", "performance"]
+      "tags": [
+        "java",
+        "virtual-threads",
+        "project-loom",
+        "webflux",
+        "project-reactor",
+        "reactive",
+        "spring-boot",
+        "concurrency",
+        "performance"
+      ]
     },
     {
       "filename": "rag-finetuning-graphrag-context-windows.md",
       "title": "RAG vs Fine-Tuning vs Graph RAG vs Context Windows",
       "date": "2026-05-29",
-      "tags": ["llm", "rag", "graph-rag", "fine-tuning", "context-window", "embeddings", "vector-search", "knowledge-graph", "python"]
+      "tags": [
+        "llm",
+        "rag",
+        "graph-rag",
+        "fine-tuning",
+        "context-window",
+        "embeddings",
+        "vector-search",
+        "knowledge-graph",
+        "python"
+      ]
     },
     {
       "filename": "hotp-totp-authenticator-apps.md",
       "title": "HOTP & TOTP: The Algorithms Behind Authenticator Apps",
       "date": "2026-05-25",
-      "tags": ["security", "authentication", "otp", "mfa", "hotp", "totp", "java", "python"]
+      "tags": [
+        "security",
+        "authentication",
+        "otp",
+        "mfa",
+        "hotp",
+        "totp",
+        "java",
+        "python"
+      ]
     },
     {
       "filename": "hashing-hmac-digital-signatures.md",
       "title": "Hashing, HMAC & Digital Signatures",
       "date": "2026-05-04",
-      "tags": ["security", "cryptography", "hashing", "hmac", "digital-signatures", "rsa", "ecdsa", "eddsa", "java", "python"]
+      "tags": [
+        "security",
+        "cryptography",
+        "hashing",
+        "hmac",
+        "digital-signatures",
+        "rsa",
+        "ecdsa",
+        "eddsa",
+        "java",
+        "python"
+      ]
     },
     {
       "filename": "bias-types-ai-ml.md",
       "title": "Bias in AI and ML: Taxonomy, Detection, and Mitigation",
       "date": "2026-04-08",
-      "tags": ["machine-learning", "ai", "bias", "fairness", "ethics", "mlops", "python"]
+      "tags": [
+        "machine-learning",
+        "ai",
+        "bias",
+        "fairness",
+        "ethics",
+        "mlops",
+        "python"
+      ]
     },
     {
       "filename": "graph-databases.md",
       "title": "Graph Databases: Relationships as First-Class Citizens",
       "date": "2026-03-15",
-      "tags": ["graph-databases", "neo4j", "rdf", "sparql", "gql", "nosql", "architecture"]
+      "tags": [
+        "graph-databases",
+        "neo4j",
+        "rdf",
+        "sparql",
+        "gql",
+        "nosql",
+        "architecture"
+      ]
     },
     {
       "filename": "stable-matching-algorithm.md",
       "title": "Stable Matching: From Theory to the NRMP",
       "date": "2026-02-21",
-      "tags": ["algorithms", "game-theory", "matching", "combinatorics", "java", "python"]
+      "tags": [
+        "algorithms",
+        "game-theory",
+        "matching",
+        "combinatorics",
+        "java",
+        "python"
+      ]
     },
     {
       "filename": "zero-knowledge-proofs.md",
       "title": "Zero-Knowledge Proofs: Prove Without Revealing",
       "date": "2026-02-03",
-      "tags": ["cryptography", "security", "zero-knowledge", "zkp", "privacy", "blockchain"]
+      "tags": [
+        "cryptography",
+        "security",
+        "zero-knowledge",
+        "zkp",
+        "privacy",
+        "blockchain"
+      ]
     },
     {
       "filename": "python-dask-vs-pandas.md",
       "title": "Dask: Scaling the PyData Ecosystem Beyond Memory",
       "date": "2026-01-14",
-      "tags": ["python", "dask", "pandas", "distributed", "data-engineering", "big-data"]
+      "tags": [
+        "python",
+        "dask",
+        "pandas",
+        "distributed",
+        "data-engineering",
+        "big-data"
+      ]
     }
   ]
 }

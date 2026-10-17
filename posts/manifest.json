@@ -1,6 +1,48 @@
 {
   "posts": [
     {
+      "filename": "clamav-terminal-docker-kubernetes.md",
+      "title": "ClamAV: From Terminal to Kubernetes",
+      "date": "2026-10-30",
+      "tags": [
+        "clamav",
+        "antivirus",
+        "malware",
+        "security",
+        "freshclam",
+        "signatures",
+        "docker",
+        "kubernetes",
+        "helm",
+        "linux",
+        "terminal",
+        "scanning",
+        "devops"
+      ]
+    },
+    {
+      "filename": "spring-security-authentication-authorization-types.md",
+      "title": "Spring Security: Every Way In, Every Rule",
+      "date": "2026-10-23",
+      "tags": [
+        "java",
+        "spring",
+        "spring-security",
+        "spring-boot",
+        "authentication",
+        "authorization",
+        "oauth2",
+        "oidc",
+        "saml2",
+        "ldap",
+        "x509",
+        "passkeys",
+        "mfa",
+        "jwt",
+        "method-security"
+      ]
+    },
+    {
       "filename": "software-licenses.md",
       "title": "Software Licenses: What They Allow and Don't Allow",
       "date": "2026-10-16",

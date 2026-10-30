@@ -1,6 +1,94 @@
 {
   "posts": [
     {
+      "filename": "probabilistic-data-structures-bloom-hyperloglog-count-min.md",
+      "title": "Probabilistic Data Structures: Bloom, HyperLogLog, Count-Min",
+      "date": "2027-01-15",
+      "tags": [
+        "data-structures",
+        "algorithms",
+        "probabilistic",
+        "bloom-filter",
+        "cuckoo-filter",
+        "hyperloglog",
+        "count-min-sketch",
+        "t-digest",
+        "minhash",
+        "redis",
+        "streaming",
+        "big-data",
+        "java",
+        "guava",
+        "databases"
+      ]
+    },
+    {
+      "filename": "search-internals-inverted-index-bm25-vector-search.md",
+      "title": "Search Internals: Inverted Index, BM25 and Vector Search",
+      "date": "2027-01-08",
+      "tags": [
+        "search",
+        "information-retrieval",
+        "inverted-index",
+        "bm25",
+        "lucene",
+        "elasticsearch",
+        "opensearch",
+        "solr",
+        "vector-search",
+        "hnsw",
+        "embeddings",
+        "hybrid-search",
+        "rrf",
+        "pgvector",
+        "rag"
+      ]
+    },
+    {
+      "filename": "time-in-distributed-systems-clocks.md",
+      "title": "Time in Distributed Systems: Clocks You Can't Trust",
+      "date": "2027-01-01",
+      "tags": [
+        "distributed-systems",
+        "clocks",
+        "time",
+        "ntp",
+        "ptp",
+        "lamport-clock",
+        "vector-clock",
+        "hybrid-logical-clock",
+        "truetime",
+        "spanner",
+        "leap-seconds",
+        "uuidv7",
+        "java",
+        "consistency",
+        "architecture"
+      ]
+    },
+    {
+      "filename": "modern-java-17-to-25.md",
+      "title": "Modern Java 17 \u2192 25: The Language You Might Have Missed",
+      "date": "2026-12-25",
+      "tags": [
+        "java",
+        "jdk",
+        "java-17",
+        "java-21",
+        "java-25",
+        "records",
+        "sealed-classes",
+        "pattern-matching",
+        "virtual-threads",
+        "structured-concurrency",
+        "scoped-values",
+        "stream-gatherers",
+        "lts",
+        "openjdk",
+        "language-features"
+      ]
+    },
+    {
       "filename": "evaluating-llm-systems-evals-llm-as-judge.md",
       "title": "Evaluating LLM Systems: Evals, LLM-as-Judge and Regression Testing",
       "date": "2026-12-18",

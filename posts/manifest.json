@@ -1,6 +1,50 @@
 {
   "posts": [
     {
+      "filename": "vibe-coding-spec-driven-development-and-hybrid-workflows.md",
+      "title": "Vibe Coding, Spec-Driven Development and the Hybrid in Between",
+      "date": "2026-11-13",
+      "tags": [
+        "vibe-coding",
+        "spec-driven-development",
+        "sdd",
+        "agentic-engineering",
+        "agentic-ai",
+        "llm",
+        "context-engineering",
+        "harness-engineering",
+        "tdd",
+        "spec-kit",
+        "kiro",
+        "openspec",
+        "claude-code",
+        "agents-md",
+        "ai-tooling"
+      ]
+    },
+    {
+      "filename": "software-versioning-schemes.md",
+      "title": "Software Versioning: From SemVer to \u03c0",
+      "date": "2026-11-06",
+      "tags": [
+        "versioning",
+        "semver",
+        "calver",
+        "release-management",
+        "pep-440",
+        "debian",
+        "rpm",
+        "maven",
+        "go-modules",
+        "npm",
+        "effver",
+        "zerover",
+        "api-versioning",
+        "devops",
+        "open-source"
+      ]
+    },
+    {
       "filename": "clamav-terminal-docker-kubernetes.md",
       "title": "ClamAV: From Terminal to Kubernetes",
       "date": "2026-10-30",

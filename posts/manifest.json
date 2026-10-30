@@ -1,6 +1,116 @@
 {
   "posts": [
     {
+      "filename": "evaluating-llm-systems-evals-llm-as-judge.md",
+      "title": "Evaluating LLM Systems: Evals, LLM-as-Judge and Regression Testing",
+      "date": "2026-12-18",
+      "tags": [
+        "llm",
+        "evals",
+        "llm-as-judge",
+        "testing",
+        "rag",
+        "ragas",
+        "agents",
+        "agentic-ai",
+        "ci",
+        "regression-testing",
+        "promptfoo",
+        "inspect-ai",
+        "mlops",
+        "quality",
+        "ai-tooling"
+      ]
+    },
+    {
+      "filename": "btree-vs-lsm-tree-storage-engines.md",
+      "title": "B-Trees vs LSM Trees: How Databases Actually Store Data",
+      "date": "2026-12-11",
+      "tags": [
+        "databases",
+        "storage-engines",
+        "b-tree",
+        "lsm-tree",
+        "rocksdb",
+        "postgresql",
+        "innodb",
+        "cassandra",
+        "wal",
+        "compaction",
+        "bloom-filter",
+        "write-amplification",
+        "sstable",
+        "internals",
+        "architecture"
+      ]
+    },
+    {
+      "filename": "resilience-patterns-timeouts-retries-circuit-breakers-bulkheads.md",
+      "title": "Resilience Patterns: Timeouts, Retries, Circuit Breakers, Bulkheads",
+      "date": "2026-12-04",
+      "tags": [
+        "resilience",
+        "fault-tolerance",
+        "circuit-breaker",
+        "retry",
+        "timeout",
+        "bulkhead",
+        "rate-limiting",
+        "load-shedding",
+        "backoff",
+        "jitter",
+        "resilience4j",
+        "spring-boot",
+        "java",
+        "distributed-systems",
+        "sre"
+      ]
+    },
+    {
+      "filename": "outbox-saga-cdc-consistency.md",
+      "title": "Outbox, Saga and CDC: Consistency Without Distributed Transactions",
+      "date": "2026-11-27",
+      "tags": [
+        "distributed-systems",
+        "microservices",
+        "outbox",
+        "saga",
+        "cdc",
+        "debezium",
+        "kafka",
+        "idempotency",
+        "exactly-once",
+        "eventual-consistency",
+        "spring-modulith",
+        "temporal",
+        "java",
+        "spring-boot",
+        "architecture"
+      ]
+    },
+    {
+      "filename": "secrets-management-env-to-workload-identity.md",
+      "title": "Secrets Management: From .env to Workload Identity",
+      "date": "2026-11-20",
+      "tags": [
+        "secrets-management",
+        "security",
+        "vault",
+        "sops",
+        "sealed-secrets",
+        "external-secrets",
+        "kubernetes",
+        "kms",
+        "oidc",
+        "workload-identity",
+        "spiffe",
+        "github-actions",
+        "devops",
+        "gitleaks",
+        "cloud"
+      ]
+    },
+    {
       "filename": "vibe-coding-spec-driven-development-and-hybrid-workflows.md",
       "title": "Vibe Coding, Spec-Driven Development and the Hybrid in Between",
       "date": "2026-11-13",
